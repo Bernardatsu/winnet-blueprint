@@ -8,6 +8,7 @@ MOTTO: “Building Your Vision. Creating Your Future.”
 CONTACT: Phone: 0549074200 Email: Fredmawuli123@gmai.com
 IMPORTANT: The email address above is supplied by the client exactly as provided. Do not silently change it. Make it easy to update from one central configuration file later in case the client confirms a corrected address.
 ==================================================
+
 OVERALL OBJECTIVE ==================================================
 Create a premium, modern, trustworthy construction-company website that feels like a serious Ghanaian construction firm rather than a generic website template.
 The website should communicate:
@@ -61,7 +62,7 @@ Use 3–4 items such as:
 QUALITY PRECISION RELIABILITY PROFESSIONAL SERVICE
 Do NOT invent years of experience, number of projects, certifications or awards.
 If actual figures are not supplied, do not fabricate them.
-Create placeholders that can easily be edited later.  ================================================== 6. ABOUT WINNET
+Create placeholders that can easily be edited later. ================================================== 6. ABOUT WINNET
 Create an elegant About section.
 Headline:
 “Built Around Your Vision.”
@@ -148,7 +149,7 @@ ATTENTION TO DETAIL From structural work to final finishing.
 PROJECT-FOCUSED DELIVERY Organized work from planning through handover.
 Use elegant icons and subtle animations.
 Do not claim certifications, guarantees, awards or statistics unless supplied by the client.
-================================================== 12. CONSTRUCTION JOURNEY VISUAL           Create a visually interesting section showing:
+================================================== 12. CONSTRUCTION JOURNEY VISUAL Create a visually interesting section showing:
 PLAN ↓ BUILD ↓ FINISH ↓ HANDOVER
 Use architectural line drawings / blueprint-inspired decorative graphics.
 Possible animation:
@@ -237,7 +238,7 @@ Add a FAQ section.
 Questions such as:
 How do I start a construction project with Winnet?
 Do you handle residential construction?
-Do you provide renovation services?          Can I request a project estimate?
+Do you provide renovation services? Can I request a project estimate?
 Do you provide architectural/building design services?
 How can I contact Winnet?
 Can I schedule a consultation?
@@ -310,7 +311,7 @@ Perfectly optimize:
 320px 375px 390px 430px 768px 1024px 1280px 1440px 1920px
 Mobile must NOT simply be a compressed desktop version.
 Design mobile intentionally.
-Check:            • typography • spacing • navigation • buttons • forms • images • project cards • animation performance • floating WhatsApp button • footer • modal/lightbox behavior
+Check: • typography • spacing • navigation • buttons • forms • images • project cards • animation performance • floating WhatsApp button • footer • modal/lightbox behavior
 ================================================== 29. ACCESSIBILITY
 Implement:
 • semantic HTML • keyboard navigation • visible focus states • sufficient color contrast • alt text • accessible buttons • accessible forms • ARIA labels where appropriate • reduced-motion support
@@ -366,7 +367,7 @@ Make it very easy for the owner to replace every placeholder image with actual W
 ================================================== 37. DESIGN INSPIRATION
 Research the best construction, architecture, engineering and premium corporate websites for design principles.
 Take inspiration from:
-• strong construction company hero sections • project-first portfolios • architectural editorial layouts • modern typography • premium case-study storytelling • restrained parallax • micro-interactions • GSAP/Framer-style motion • premium project grids • strong conversion CTAs    IMPORTANT: Do not copy another company's exact layout, wording, branding, images or design.
+• strong construction company hero sections • project-first portfolios • architectural editorial layouts • modern typography • premium case-study storytelling • restrained parallax • micro-interactions • GSAP/Framer-style motion • premium project grids • strong conversion CTAs IMPORTANT: Do not copy another company's exact layout, wording, branding, images or design.
 Synthesize the best ideas into an ORIGINAL Winnet Construction identity.
 ================================================== 38. IMPORTANT CONTENT RULE
 Never invent company facts.
@@ -407,7 +408,7 @@ It should convert visitors into:
 Build the complete UI/UX and functional frontend now.
 Do not stop at a wireframe.
 Do not create a generic template.
-Create the actual polished website experience.   Absolutely. The correct email is:
+Create the actual polished website experience. Absolutely. The correct email is:
 
 Fredmawuli123@gmail.com ✅
 

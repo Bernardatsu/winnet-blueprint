@@ -57,7 +57,8 @@ export function ProjectEnquiryForm({
 }) {
   const [form, setForm] = useState<EnquiryData>({
     ...emptyForm,
-    projectType: presetProjectType && projectTypes.includes(presetProjectType) ? presetProjectType : "",
+    projectType:
+      presetProjectType && projectTypes.includes(presetProjectType) ? presetProjectType : "",
   });
   const [errors, setErrors] = useState<Errors>({});
 
@@ -179,7 +180,11 @@ export function ProjectEnquiryForm({
           required
           error={errors.contactMethod}
         >
-          <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Preferred contact method">
+          <div
+            className="flex flex-wrap gap-2"
+            role="radiogroup"
+            aria-label="Preferred contact method"
+          >
             {contactMethods.map((method) => {
               const active = form.contactMethod === method;
               return (
@@ -202,7 +207,11 @@ export function ProjectEnquiryForm({
           </div>
         </Field>
 
-        <Field id="consultationDate" label="Preferred Consultation Date" error={errors.consultationDate}>
+        <Field
+          id="consultationDate"
+          label="Preferred Consultation Date"
+          error={errors.consultationDate}
+        >
           <Input
             id="consultationDate"
             type="date"
@@ -261,8 +270,8 @@ export function ProjectEnquiryForm({
         </Button>
       </div>
       <p className="text-xs leading-relaxed text-muted-foreground">
-        Submitting opens WhatsApp or your email app with your details pre-filled. An enquiry is not a
-        quotation or a construction contract.
+        Submitting opens WhatsApp or your email app with your details pre-filled. An enquiry is not
+        a quotation or a construction contract.
       </p>
     </form>
   );

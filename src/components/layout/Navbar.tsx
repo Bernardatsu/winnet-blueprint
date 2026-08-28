@@ -43,7 +43,11 @@ export function Navbar() {
       }`}
     >
       <div className="shell flex h-16 items-center justify-between gap-4 lg:h-20">
-        <Link to="/" className="group flex items-center gap-3" aria-label={`${company.name} — home`}>
+        <Link
+          to="/"
+          className="group flex items-center gap-3"
+          aria-label={`${company.name} — home`}
+        >
           <span className="flex h-9 w-9 items-center justify-center bg-gold">
             <span className="font-display text-lg font-black text-ink">W</span>
           </span>

@@ -21,9 +21,9 @@ export function AboutSection() {
               <div className="mt-8 space-y-5 text-sm leading-relaxed text-muted-foreground sm:text-base">
                 <p>
                   We work with clients who want their project handled properly — clear scope,
-                  organised site work and a finish that holds up over time. Whether it is a new home,
-                  a structural package or a renovation, the approach stays the same: plan it well,
-                  build it carefully, check it honestly.
+                  organised site work and a finish that holds up over time. Whether it is a new
+                  home, a structural package or a renovation, the approach stays the same: plan it
+                  well, build it carefully, check it honestly.
                 </p>
                 <p>
                   Every project is coordinated from the first consultation through to handover, so

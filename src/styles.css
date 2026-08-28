@@ -148,8 +148,16 @@
 
 @utility blueprint-grid-dark {
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--on-ink) 8%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--on-ink) 8%, transparent) 1px, transparent 1px);
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--on-ink) 8%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--on-ink) 8%, transparent) 1px,
+      transparent 1px
+    );
   background-size: 56px 56px;
 }
 

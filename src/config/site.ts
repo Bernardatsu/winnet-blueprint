@@ -378,12 +378,24 @@ export const gallery = [
     label: "Structural detail",
     alt: "Steel reinforcement in a concrete column",
   },
-  { src: images.residential, label: "Completed residence", alt: "Modern completed two-storey home" },
+  {
+    src: images.residential,
+    label: "Completed residence",
+    alt: "Modern completed two-storey home",
+  },
   { src: images.steel, label: "Steel & roof works", alt: "Worker welding a steel roof truss" },
-  { src: images.finishing, label: "Interior finishing", alt: "Finished modern interior living area" },
+  {
+    src: images.finishing,
+    label: "Interior finishing",
+    alt: "Finished modern interior living area",
+  },
   { src: images.painting, label: "Painting", alt: "Paint roller applying finish to a wall" },
   { src: images.blueprint, label: "Design & drawings", alt: "Architectural blueprints on a desk" },
-  { src: images.renovation, label: "Renovation in progress", alt: "Interior room under renovation" },
+  {
+    src: images.renovation,
+    label: "Renovation in progress",
+    alt: "Interior room under renovation",
+  },
 ];
 
 /**
