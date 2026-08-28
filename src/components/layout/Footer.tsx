@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Mail, Phone } from "lucide-react";
 
 import { company, mailHref, nav, phoneDisplay, services, telHref } from "@/config/site";
+import { WinnetIcon, WinnetQualityBadge } from "@/components/brand/WinnetBrand";
 
 export function Footer() {
   return (
@@ -11,9 +12,7 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1.2fr_1.2fr]">
           <div>
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center bg-gold">
-                <span className="font-display text-xl font-black text-ink">W</span>
-              </span>
+              <WinnetIcon className="size-10 rounded-md" />
               <span className="font-display text-sm font-black uppercase tracking-[0.16em]">
                 {company.name}
               </span>
@@ -21,6 +20,13 @@ export function Footer() {
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-on-ink-muted">
               {company.motto}
             </p>
+            <div className="mt-6 flex items-center gap-4">
+              <WinnetQualityBadge className="size-16 drop-shadow-md" />
+              <div className="text-xs text-on-ink-muted leading-tight">
+                <span className="block font-bold text-gold">Quality Built Guarantee</span>
+                <span>Ghanaian Standard Compliant</span>
+              </div>
+            </div>
             <div className="measure-line mt-6 w-32 opacity-40" aria-hidden="true" />
           </div>
 

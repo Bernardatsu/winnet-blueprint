@@ -67,6 +67,7 @@ export const nav = [
   { label: "Projects", to: "/projects" },
   { label: "Process", to: "/process" },
   { label: "Why Winnet", to: "/why-winnet" },
+  { label: "Gallery", to: "/gallery" },
   { label: "Contact", to: "/contact" },
 ] as const;
 

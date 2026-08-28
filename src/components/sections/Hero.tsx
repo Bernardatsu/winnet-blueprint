@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useEnquiry } from "@/components/enquiry/EnquiryProvider";
 import { company, images } from "@/config/site";
+import { WinnetQualityBadge } from "@/components/brand/WinnetBrand";
 
 const words = ["Building Your Vision.", "Creating Your Future."];
 
@@ -19,16 +20,23 @@ export function Hero() {
         alt="Multi-storey concrete building under construction at golden hour with workers on site"
         width={1920}
         height={1280}
-        className="absolute inset-0 h-full w-full object-cover"
+        loading="eager"
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover brightness-[0.92] contrast-[1.05]"
         initial={reduced ? undefined : { scale: 1.12 }}
         animate={reduced ? undefined : { scale: 1 }}
         transition={{ duration: 2.4, ease: [0.16, 1, 0.3, 1] }}
       />
       <div
-        className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/35"
+        className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/50 to-ink/20"
         aria-hidden="true"
       />
-      <div className="blueprint-grid-dark absolute inset-0 opacity-25" aria-hidden="true" />
+      <div
+        className="absolute inset-0 bg-gradient-to-r from-ink/70 via-transparent to-transparent"
+        aria-hidden="true"
+      />
+      <div className="blueprint-grid-dark absolute inset-0 opacity-15" aria-hidden="true" />
 
       <div className="shell relative w-full pb-14 lg:pb-20">
         <motion.p
@@ -103,6 +111,16 @@ export function Hero() {
           ))}
         </motion.div>
       </div>
+
+      {/* Quality built guarantee badge on desktop */}
+      <motion.div
+        className="absolute bottom-24 right-8 hidden lg:flex flex-col items-center gap-2 xl:right-16"
+        initial={reduced ? undefined : { opacity: 0, scale: 0.8 }}
+        animate={reduced ? undefined : { opacity: 1, scale: 1 }}
+        transition={{ delay: 0.95, duration: 0.6 }}
+      >
+        <WinnetQualityBadge className="size-24 drop-shadow-2xl transition-transform duration-300 hover:scale-110" />
+      </motion.div>
 
       <motion.div
         className="absolute bottom-5 right-4 hidden flex-col items-center gap-2 lg:flex xl:right-12"

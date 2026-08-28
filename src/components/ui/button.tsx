@@ -17,15 +17,15 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         /** Primary conversion CTA — construction yellow on charcoal text. */
-        gold: "font-display uppercase tracking-[0.14em] rounded-none bg-gold text-ink hover:bg-gold-deep active:translate-y-px transition-[background-color,transform]",
+        gold: "font-display uppercase tracking-[0.14em] rounded-lg bg-gold text-ink hover:bg-gold-deep active:translate-y-px transition-[background-color,transform]",
         /** Dark solid CTA for light backgrounds. */
-        ink: "font-display uppercase tracking-[0.14em] rounded-none bg-ink text-on-ink hover:bg-ink-soft active:translate-y-px transition-[background-color,transform]",
+        ink: "font-display uppercase tracking-[0.14em] rounded-lg bg-ink text-on-ink hover:bg-ink-soft active:translate-y-px transition-[background-color,transform]",
         /** Outlined CTA on dark/photographic backgrounds. */
         outlineLight:
-          "font-display uppercase tracking-[0.14em] rounded-none border border-on-ink/40 text-on-ink hover:border-gold hover:text-gold bg-transparent",
+          "font-display uppercase tracking-[0.14em] rounded-lg border border-on-ink/40 text-on-ink hover:border-gold hover:text-gold bg-transparent",
         /** Outlined CTA on light backgrounds. */
         outlineInk:
-          "font-display uppercase tracking-[0.14em] rounded-none border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-on-ink bg-transparent",
+          "font-display uppercase tracking-[0.14em] rounded-lg border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-on-ink bg-transparent",
       },
       size: {
         default: "h-9 px-4 py-2",

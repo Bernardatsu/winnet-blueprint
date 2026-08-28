@@ -39,8 +39,8 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
     <EnquiryContext.Provider value={value}>
       {children}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[92vh] gap-0 overflow-y-auto rounded-none border-ink/15 bg-card p-0 sm:max-w-2xl">
-          <DialogHeader className="space-y-2 border-b border-border bg-ink px-5 py-6 text-left sm:px-8">
+        <DialogContent className="max-h-[92vh] gap-0 overflow-y-auto rounded-3xl border border-border/80 bg-card/95 backdrop-blur-2xl p-0 shadow-2xl sm:max-w-2xl">
+          <DialogHeader className="space-y-2 border-b border-border/80 bg-ink/95 backdrop-blur-md px-5 py-6 text-left sm:px-8">
             <p className="eyebrow text-gold">Project Enquiry</p>
             <DialogTitle className="h-display text-2xl text-on-ink sm:text-3xl">
               Start Your Project

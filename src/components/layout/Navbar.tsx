@@ -6,6 +6,7 @@ import { Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEnquiry } from "@/components/enquiry/EnquiryProvider";
 import { company, nav, phoneDisplay, telHref } from "@/config/site";
+import { WinnetIcon } from "@/components/brand/WinnetBrand";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -36,9 +37,9 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color,box-shadow] duration-300 ${
         solid
-          ? "border-b border-on-ink/10 bg-ink/92 backdrop-blur-md supports-[backdrop-filter]:bg-ink/80"
+          ? "border-b border-on-ink/15 bg-ink/80 backdrop-blur-xl shadow-lg shadow-black/25"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -48,9 +49,7 @@ export function Navbar() {
           className="group flex items-center gap-3"
           aria-label={`${company.name} — home`}
         >
-          <span className="flex h-9 w-9 items-center justify-center bg-gold">
-            <span className="font-display text-lg font-black text-ink">W</span>
-          </span>
+          <WinnetIcon className="size-9 rounded-md shadow-sm transition-transform duration-200 group-hover:scale-105" />
           <span className="leading-none">
             <span className="font-display block text-sm font-black uppercase tracking-[0.16em] text-on-ink">
               Winnet
@@ -61,13 +60,16 @@ export function Navbar() {
           </span>
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
+        <nav
+          aria-label="Main"
+          className="hidden items-center gap-1 rounded-full border border-on-ink/10 bg-ink/40 px-3 py-1 backdrop-blur-md lg:flex"
+        >
           {nav.map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              className="font-display px-3 py-2 text-[0.6875rem] uppercase tracking-[0.16em] text-on-ink-muted transition-colors hover:text-gold"
-              activeProps={{ className: "text-gold" }}
+              className="font-display rounded-full px-3.5 py-1.5 text-[0.6875rem] uppercase tracking-[0.16em] text-on-ink-muted transition-all hover:bg-on-ink/10 hover:text-gold"
+              activeProps={{ className: "bg-on-ink/15 text-gold font-bold" }}
               activeOptions={{ exact: item.to === "/" }}
             >
               {item.label}
@@ -78,7 +80,7 @@ export function Navbar() {
         <div className="hidden items-center gap-2 lg:flex">
           <a
             href={telHref}
-            className="font-display flex items-center gap-2 border border-on-ink/25 px-4 py-3 text-[0.6875rem] uppercase tracking-[0.14em] text-on-ink transition-colors hover:border-gold hover:text-gold"
+            className="font-display flex items-center gap-2 rounded-lg border border-on-ink/20 bg-on-ink/5 px-4 py-2.5 text-[0.6875rem] uppercase tracking-[0.14em] text-on-ink backdrop-blur-md transition-all hover:border-gold hover:bg-gold/10 hover:text-gold"
           >
             <Phone className="size-3.5" aria-hidden="true" />
             Call Us
@@ -90,7 +92,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="flex size-11 items-center justify-center text-on-ink lg:hidden"
+          className="flex size-11 items-center justify-center rounded-lg border border-on-ink/15 bg-on-ink/5 text-on-ink backdrop-blur-md lg:hidden"
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -109,7 +111,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-on-ink/10 bg-ink lg:hidden"
+            className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-on-ink/15 bg-ink/95 backdrop-blur-2xl shadow-2xl lg:hidden"
           >
             <nav aria-label="Mobile" className="shell flex flex-col py-4">
               {nav.map((item, index) => (

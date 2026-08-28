@@ -1,20 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { Reveal, SectionHeading } from "@/components/Reveal";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/button";
 import { useEnquiry } from "@/components/enquiry/EnquiryProvider";
-import { company, whyPillars, values } from "@/config/site";
+import { company, images, whyPillars, values } from "@/config/site";
+import { buildSeoMeta, whyWinnetSeoConfig } from "@/lib/seo";
 
 export const Route = createFileRoute("/why-winnet")({
-  head: () => ({
-    meta: [
-      { title: `Why Choose Winnet | ${company.name}` },
-      {
-        name: "description",
-        content: `Discover what sets ${company.name} apart: uncompromising quality, transparent communication, and experienced site supervision.`,
-      },
-    ],
-  }),
+  head: () => buildSeoMeta(whyWinnetSeoConfig),
   component: WhyWinnetPage,
 });
 
@@ -23,20 +17,14 @@ function WhyWinnetPage() {
 
   return (
     <div className="flex flex-col pt-20">
-      {/* Header */}
-      <section className="relative overflow-hidden bg-ink py-20 text-on-ink lg:py-28">
-        <div className="blueprint-grid-dark absolute inset-0 opacity-30" aria-hidden="true" />
-        <div className="shell relative">
-          <p className="eyebrow text-gold">The Winnet Standard</p>
-          <h1 className="h-display mt-4 text-4xl sm:text-6xl lg:text-7xl">
-            Why Choose Winnet Construction
-          </h1>
-          <p className="mt-6 max-w-2xl text-base text-on-ink-muted sm:text-lg">
-            We operate with clear contracts, structured milestones, and strict supervision so your
-            building project is delivered right the first time.
-          </p>
-        </div>
-      </section>
+      {/* Header with image behind text */}
+      <PageHeader
+        eyebrow="The Winnet Standard"
+        title="Why Choose Winnet Construction"
+        subtitle="We operate with clear contracts, structured milestones, and strict supervision so your building project is delivered right the first time."
+        image={images.steel}
+        imageAlt="Structural steel frame installation and heavy roof beam alignment"
+      />
 
       {/* Pillars */}
       <section className="section-pad bg-background">
@@ -50,11 +38,11 @@ function WhyWinnetPage() {
           <div className="mt-12 grid gap-8 md:grid-cols-2">
             {whyPillars.map((p, idx) => (
               <Reveal key={p.title} delay={idx * 0.08}>
-                <div className="flex h-full flex-col border border-border bg-card p-6 sm:p-8">
-                  <div className="flex size-12 items-center justify-center bg-gold text-ink">
+                <div className="flex h-full flex-col rounded-3xl glass-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-gold/50 sm:p-8">
+                  <div className="flex size-12 items-center justify-center rounded-xl bg-gold text-ink shadow-sm">
                     <ShieldCheck className="size-6" />
                   </div>
-                  <h3 className="font-display mt-6 text-xl uppercase tracking-[0.06em] text-foreground">
+                  <h3 className="font-display mt-6 text-xl uppercase tracking-[0.06em] text-foreground font-bold">
                     {p.title}
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -65,8 +53,8 @@ function WhyWinnetPage() {
             ))}
           </div>
 
-          <div className="mt-16 border border-ink/10 bg-secondary p-8 text-center sm:p-12">
-            <h3 className="font-display text-2xl uppercase tracking-[0.08em] text-foreground">
+          <div className="mt-16 rounded-3xl glass-panel p-8 text-center sm:p-12 shadow-sm">
+            <h3 className="font-display text-2xl uppercase tracking-[0.08em] text-foreground font-bold">
               Experience the Winnet difference on your next build
             </h3>
             <div className="mt-6 flex justify-center">

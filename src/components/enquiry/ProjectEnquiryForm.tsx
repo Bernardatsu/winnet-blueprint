@@ -46,7 +46,7 @@ const emptyForm: EnquiryData = {
 };
 
 const fieldBase =
-  "rounded-none border-ink/20 bg-background focus-visible:border-gold focus-visible:ring-gold/40";
+  "rounded-lg border-ink/20 bg-background focus-visible:border-gold focus-visible:ring-gold/40";
 
 export function ProjectEnquiryForm({
   presetProjectType,
@@ -147,7 +147,7 @@ export function ProjectEnquiryForm({
         <Field id="projectType" label="Project Type" required error={errors.projectType}>
           <select
             id="projectType"
-            className={`flex h-9 w-full border border-ink/20 bg-background px-3 py-1 text-base shadow-sm transition-colors focus-visible:border-gold focus-visible:outline-none md:text-sm ${
+            className={`flex h-10 w-full rounded-lg border border-ink/20 bg-background px-3 py-1 text-base shadow-xs transition-colors focus-visible:border-gold focus-visible:outline-none md:text-sm ${
               form.projectType ? "" : "text-muted-foreground"
             }`}
             value={form.projectType}
@@ -194,9 +194,9 @@ export function ProjectEnquiryForm({
                   role="radio"
                   aria-checked={active}
                   onClick={() => set("contactMethod", method)}
-                  className={`font-display cursor-pointer border px-3 py-2 text-[0.6875rem] uppercase tracking-[0.14em] transition-colors ${
+                  className={`font-display cursor-pointer rounded-lg border px-3 py-2 text-[0.6875rem] uppercase tracking-[0.14em] transition-colors ${
                     active
-                      ? "border-gold bg-gold text-ink"
+                      ? "border-gold bg-gold text-ink font-bold"
                       : "border-ink/20 text-muted-foreground hover:border-ink/50 hover:text-ink"
                   }`}
                 >
@@ -224,7 +224,7 @@ export function ProjectEnquiryForm({
         <Field id="budget" label="Estimated Budget Range" error={errors.budget}>
           <select
             id="budget"
-            className={`flex h-9 w-full border border-ink/20 bg-background px-3 py-1 text-base shadow-sm transition-colors focus-visible:border-gold focus-visible:outline-none md:text-sm ${
+            className={`flex h-10 w-full rounded-lg border border-ink/20 bg-background px-3 py-1 text-base shadow-xs transition-colors focus-visible:border-gold focus-visible:outline-none md:text-sm ${
               form.budget ? "" : "text-muted-foreground"
             }`}
             value={form.budget}

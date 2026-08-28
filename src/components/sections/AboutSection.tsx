@@ -32,12 +32,12 @@ export function AboutSection() {
               </div>
             </Reveal>
 
-            <div className="mt-10 grid gap-px border border-border bg-border sm:grid-cols-3">
+            <div className="mt-10 grid gap-3 sm:grid-cols-3">
               {values.map((value, index) => (
                 <Reveal key={value.title} delay={0.1 + index * 0.08}>
-                  <div className="group h-full bg-card p-5 transition-colors hover:bg-ink">
+                  <div className="group h-full rounded-xl glass-card p-5 transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:bg-ink hover:shadow-xl">
                     <span
-                      className="block h-1 w-8 bg-gold transition-all group-hover:w-14"
+                      className="block h-1 w-8 rounded-full bg-gold transition-all group-hover:w-14"
                       aria-hidden="true"
                     />
                     <h3 className="font-display mt-4 text-sm uppercase tracking-[0.16em] text-ink transition-colors group-hover:text-gold">
@@ -59,21 +59,22 @@ export function AboutSection() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden rounded-2xl border border-border shadow-lg">
               <img
                 src={images.about}
                 alt="Site engineer and mason reviewing building drawings on a residential construction site"
                 loading="lazy"
+                decoding="async"
                 width={1200}
                 height={1504}
                 className="aspect-[4/5] w-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 left-0 max-w-[15rem] bg-gold p-5 sm:-left-6">
-              <p className="font-display text-xs uppercase tracking-[0.16em] text-ink">
+            <div className="absolute -bottom-6 left-0 max-w-[15rem] rounded-xl bg-gold/95 backdrop-blur-md p-5 shadow-xl border border-white/30 sm:-left-6">
+              <p className="font-display text-xs uppercase tracking-[0.16em] text-ink font-bold">
                 Planning first
               </p>
-              <p className="mt-2 text-xs leading-relaxed text-ink/80">
+              <p className="mt-2 text-xs leading-relaxed text-ink font-medium">
                 Drawings, sequence and materials agreed before work starts on site.
               </p>
             </div>

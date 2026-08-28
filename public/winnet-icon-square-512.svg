@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+<linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#191919"/>
+<stop offset="100%" stop-color="#0a0a0a"/>
+</linearGradient>
+</defs>
+<rect width="512" height="512" rx="88" fill="url(#bgGrad)"/>
+<g>
+<path d="
+M 112 172
+L 164 172
+L 208 308
+L 242 216
+L 264 216
+L 275 248
+L 286 216
+L 308 216
+L 352 308
+L 396 172
+L 448 172
+L 380 368
+L 338 368
+L 275 258
+L 212 368
+L 170 368
+Z"
+fill="#F2B23C"/>
+<path d="M 380 368 L 338 368 L 275 258 L 286 216 L 308 216 L 352 308 Z" fill="#C6871D"/>
+<path d="M 212 368 L 170 368 L 208 308 L 242 216 L 264 216 L 275 258 Z" fill="#C6871D"/>
+<path d="M 112 172 L 164 172 L 184 224 L 148 196 Z" fill="#FBCD6E"/>
+<path d="M 396 172 L 448 172 L 412 196 L 376 224 Z" fill="#FBCD6E"/>
+</g>
+<rect x="112" y="368" width="336" height="18" rx="3" fill="#C6871D"/>
+<rect x="112" y="368" width="336" height="6" rx="3" fill="#F2B23C"/>
+</svg>

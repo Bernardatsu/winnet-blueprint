@@ -1,22 +1,16 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Eye, X } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Eye, MapPin, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Reveal, SectionHeading } from "@/components/Reveal";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/button";
 import { useEnquiry } from "@/components/enquiry/EnquiryProvider";
-import { company, projects, projectCategories, type Project } from "@/config/site";
+import { company, images, projects, projectCategories, type Project } from "@/config/site";
+import { buildSeoMeta, projectsSeoConfig } from "@/lib/seo";
 
 export const Route = createFileRoute("/projects")({
-  head: () => ({
-    meta: [
-      { title: `Projects & Portfolio | ${company.name}` },
-      {
-        name: "description",
-        content: `Explore completed and active construction projects by ${company.name}.`,
-      },
-    ],
-  }),
+  head: () => buildSeoMeta(projectsSeoConfig),
   component: ProjectsPage,
 });
 
@@ -29,94 +23,98 @@ function ProjectsPage() {
 
   return (
     <div className="flex flex-col pt-20">
-      {/* Header */}
-      <section className="relative overflow-hidden bg-ink py-20 text-on-ink lg:py-28">
-        <div className="blueprint-grid-dark absolute inset-0 opacity-30" aria-hidden="true" />
-        <div className="shell relative">
-          <p className="eyebrow text-gold">Portfolio</p>
-          <h1 className="h-display mt-4 text-4xl sm:text-6xl lg:text-7xl">
-            Our Construction Projects
-          </h1>
-          <p className="mt-6 max-w-2xl text-base text-on-ink-muted sm:text-lg">
-            A showcase of residential structures, commercial developments, structural works, and
-            specialized finishes.
-          </p>
-        </div>
-      </section>
+      {/* Header with image behind text */}
+      <PageHeader
+        eyebrow="Portfolio"
+        title="Our Construction Projects"
+        subtitle="A showcase of residential structures, commercial developments, structural works, and specialized finishes across Ghana."
+        image={images.residential}
+        imageAlt="Modern residential architectural building project"
+      />
 
       {/* Grid with Filter */}
       <section className="section-pad bg-background">
         <div className="shell">
-          <div className="flex flex-wrap gap-2 border-b border-border pb-6">
-            {projectCategories.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setCategory(cat)}
-                className={`font-display border px-4 py-2 text-xs uppercase tracking-[0.14em] transition-colors ${
-                  category === cat
-                    ? "border-ink bg-ink text-gold"
-                    : "border-border bg-card text-muted-foreground hover:border-ink/40 hover:text-foreground"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="flex flex-wrap gap-2 p-2 rounded-2xl glass-panel pb-3 mb-6">
+            {projectCategories.map((cat) => {
+              const active = category === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setCategory(cat)}
+                  className={`font-display rounded-xl px-4 py-2 text-xs uppercase tracking-[0.14em] transition-all ${
+                    active
+                      ? "bg-gold text-ink font-bold shadow-md shadow-gold/30"
+                      : "text-muted-foreground hover:bg-card hover:text-foreground"
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((project, idx) => (
               <Reveal key={project.slug} delay={idx * 0.06}>
-                <article className="group flex h-full flex-col overflow-hidden border border-border bg-card transition-shadow hover:shadow-lg">
-                  <div className="relative aspect-[16/10] overflow-hidden bg-ink/10">
+                <article className="group flex h-full flex-col overflow-hidden rounded-3xl glass-card transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-gold/50">
+                  <div className="relative aspect-[16/10] overflow-hidden bg-ink">
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute left-3 top-3">
-                      <span className="font-display bg-ink/90 px-2.5 py-1 text-[0.625rem] uppercase tracking-[0.16em] text-gold">
+                      <span className="font-display rounded-lg glass-badge px-2.5 py-1 text-[0.625rem] uppercase tracking-[0.16em] text-gold font-bold">
                         {project.category}
                       </span>
                     </div>
                   </div>
 
                   <div className="flex flex-1 flex-col p-6">
-                    <h3 className="font-display text-lg uppercase tracking-[0.04em] text-foreground sm:text-xl">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <MapPin className="size-3 text-gold" />
+                      <span>{project.location}</span>
+                    </div>
+
+                    <h3 className="font-display mt-2 text-lg uppercase tracking-[0.04em] text-foreground sm:text-xl">
                       {project.title}
                     </h3>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground line-clamp-2">
                       {project.summary}
                     </p>
 
-                    <div className="mt-4 flex flex-wrap gap-1.5 border-t border-border pt-4">
-                      {project.scope.map((s) => (
+                    <div className="mt-4 flex flex-wrap gap-1.5 border-t border-border/80 pt-4">
+                      {project.scope.slice(0, 4).map((s) => (
                         <span
                           key={s}
-                          className="bg-secondary px-2 py-0.5 text-[0.6875rem] font-medium text-muted-foreground"
+                          className="rounded-md bg-secondary/80 px-2.5 py-0.5 text-[0.6875rem] font-semibold text-muted-foreground"
                         >
                           {s}
                         </span>
                       ))}
                     </div>
 
-                    <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
+                    <div className="mt-6 flex items-center justify-between border-t border-border/80 pt-4">
                       <button
                         type="button"
                         onClick={() => setActiveProject(project)}
-                        className="font-display inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.16em] text-ink hover:text-gold-deep"
+                        className="font-display inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.14em] text-ink hover:text-gold font-bold transition-colors"
                       >
                         <Eye className="size-3.5" />
-                        Details
+                        Quick View
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => openEnquiry(project.category)}
-                        className="font-display inline-flex items-center gap-1 text-xs uppercase tracking-[0.16em] text-gold-deep hover:underline"
+                      <Link
+                        to="/projects/$slug"
+                        params={{ slug: project.slug }}
+                        className="font-display inline-flex items-center gap-1 text-xs uppercase tracking-[0.14em] text-gold-deep hover:underline font-bold"
                       >
-                        Inquire
+                        Full Case Study
                         <ArrowRight className="size-3.5" />
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </article>
@@ -135,65 +133,101 @@ function ProjectsPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveProject(null)}
-              className="absolute inset-0 bg-ink/80 backdrop-blur-xs"
+              className="absolute inset-0 bg-ink/80 backdrop-blur-md"
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto border border-border bg-card p-6 shadow-2xl sm:p-8"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-border/80 bg-card/95 backdrop-blur-2xl p-6 shadow-2xl sm:p-8"
             >
               <button
                 type="button"
                 onClick={() => setActiveProject(null)}
-                className="absolute right-4 top-4 flex size-8 items-center justify-center border border-border text-muted-foreground hover:text-foreground"
+                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:text-foreground"
+                aria-label="Close project modal"
               >
                 <X className="size-5" />
               </button>
 
-              <span className="font-display bg-gold px-2.5 py-1 text-[0.625rem] uppercase tracking-[0.16em] text-ink">
-                {activeProject.category}
-              </span>
-              <h3 className="h-display mt-3 text-2xl text-foreground sm:text-3xl">
+              <div className="flex items-center gap-2">
+                <span className="font-display rounded-md bg-gold px-2.5 py-1 text-[0.625rem] uppercase tracking-[0.16em] text-ink font-bold">
+                  {activeProject.category}
+                </span>
+                <span className="text-xs text-muted-foreground">{activeProject.location}</span>
+              </div>
+
+              <h3 className="h-display mt-4 text-2xl text-foreground sm:text-3xl">
                 {activeProject.title}
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">{activeProject.summary}</p>
 
-              <div className="mt-5 aspect-[16/9] overflow-hidden bg-ink/10">
+              <div className="mt-6 aspect-[16/9] overflow-hidden rounded-2xl bg-ink">
                 <img
                   src={activeProject.image}
                   alt={activeProject.title}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover"
                 />
               </div>
 
-              <div className="mt-6 space-y-3 text-sm text-muted-foreground">
-                <p>
-                  <strong className="text-foreground">Scope:</strong>{" "}
-                  {activeProject.scope.join(", ")}
-                </p>
-                <p>
-                  <strong className="text-foreground">Brief:</strong> {activeProject.brief}
-                </p>
-                <p>
-                  <strong className="text-foreground">Delivery:</strong> {activeProject.work}
-                </p>
+              <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted-foreground">
+                <div>
+                  <h4 className="font-display text-xs uppercase tracking-[0.16em] text-foreground font-bold">
+                    Project Scope
+                  </h4>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {activeProject.scope.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-lg bg-secondary px-3 py-1 text-xs font-semibold text-foreground border border-border/60"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-xl glass-panel p-4">
+                    <h5 className="font-display text-xs uppercase tracking-[0.14em] text-foreground font-bold">
+                      Overview &amp; Brief
+                    </h5>
+                    <p className="mt-1 text-xs text-muted-foreground">{activeProject.brief}</p>
+                  </div>
+                  <div className="rounded-xl glass-panel p-4">
+                    <h5 className="font-display text-xs uppercase tracking-[0.14em] text-foreground font-bold">
+                      Execution &amp; Delivery
+                    </h5>
+                    <p className="mt-1 text-xs text-muted-foreground">{activeProject.work}</p>
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-6 flex justify-end gap-3 border-t border-border pt-4">
-                <Button variant="outlineInk" onClick={() => setActiveProject(null)}>
-                  Close
+              <div className="mt-8 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:justify-between sm:items-center">
+                <Button variant="outlineInk" size="sm" asChild>
+                  <Link to="/projects/$slug" params={{ slug: activeProject.slug }}>
+                    Open Full Case Study Page
+                    <ArrowRight className="size-3.5" />
+                  </Link>
                 </Button>
-                <Button
-                  variant="gold"
-                  onClick={() => {
-                    const cat = activeProject.category;
-                    setActiveProject(null);
-                    openEnquiry(cat);
-                  }}
-                >
-                  Inquire Now
-                </Button>
+                <div className="flex gap-3">
+                  <Button variant="outlineInk" size="sm" onClick={() => setActiveProject(null)}>
+                    Close
+                  </Button>
+                  <Button
+                    variant="gold"
+                    size="sm"
+                    onClick={() => {
+                      const cat = activeProject.category;
+                      setActiveProject(null);
+                      openEnquiry(cat);
+                    }}
+                  >
+                    Inquire For Project
+                  </Button>
+                </div>
               </div>
             </motion.div>
           </div>

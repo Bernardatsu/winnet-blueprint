@@ -4,14 +4,17 @@ import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
-  Building,
-  HardHat,
-  ShieldCheck,
-  CalendarCheck,
+  ChevronLeft,
+  ChevronRight,
   Eye,
-  X,
-  Phone,
+  HardHat,
+  MapPin,
   MessageCircle,
+  Phone,
+  Quote,
+  ShieldCheck,
+  Sparkles,
+  X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -22,19 +25,25 @@ import { ServicesGrid } from "@/components/sections/ServicesGrid";
 import { Reveal, SectionHeading } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { useEnquiry } from "@/components/enquiry/EnquiryProvider";
+import { ProjectEnquiryForm } from "@/components/enquiry/ProjectEnquiryForm";
 import {
   company,
   faqs,
   gallery,
+  images,
+  journeySteps,
   processSteps,
   projectCategories,
   projects,
+  testimonials,
   whyPillars,
   type Project,
   telHref,
 } from "@/config/site";
+import { buildSeoMeta, homeSeoConfig } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
+  head: () => buildSeoMeta(homeSeoConfig),
   component: HomePage,
 });
 
@@ -44,9 +53,18 @@ function HomePage() {
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
   const [activeGalleryImg, setActiveGalleryImg] = useState<(typeof gallery)[number] | null>(null);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
 
   const filteredProjects =
     selectedCategory === "All" ? projects : projects.filter((p) => p.category === selectedCategory);
+
+  const nextTestimonial = () => {
+    setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
 
   return (
     <div className="flex flex-col">
@@ -72,95 +90,128 @@ function HomePage() {
               subtitle="Explore residential, commercial, structural, and finishing work executed to the highest standards."
             />
             <div className="flex flex-wrap gap-2">
-              {projectCategories.map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`font-display border px-3.5 py-2 text-xs uppercase tracking-[0.14em] transition-colors ${
-                    selectedCategory === cat
-                      ? "border-ink bg-ink text-gold"
-                      : "border-border bg-card text-muted-foreground hover:border-ink/40 hover:text-foreground"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+              {projectCategories.map((cat) => {
+                const active = selectedCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`font-display rounded-lg px-3.5 py-2 text-xs uppercase tracking-[0.14em] transition-all ${
+                      active
+                        ? "bg-gold text-ink font-bold shadow-md shadow-gold/20"
+                        : "glass-panel text-muted-foreground hover:border-ink/40 hover:text-foreground"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project, idx) => (
-              <Reveal key={project.slug} delay={idx * 0.08}>
-                <article className="group flex h-full flex-col overflow-hidden border border-border bg-card transition-shadow hover:shadow-lg">
-                  <div className="relative aspect-[16/10] overflow-hidden bg-ink/10">
+              <Reveal key={project.slug} delay={idx * 0.06}>
+                <article className="group flex h-full flex-col overflow-hidden rounded-2xl glass-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-gold/50">
+                  <div className="relative aspect-[16/10] overflow-hidden bg-ink">
                     <img
                       src={project.image}
                       alt={project.title}
                       loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute left-3 top-3">
-                      <span className="font-display bg-ink/90 px-2.5 py-1 text-[0.625rem] uppercase tracking-[0.16em] text-gold backdrop-blur-xs">
+                      <span className="font-display rounded-md glass-badge px-2.5 py-1 text-[0.625rem] uppercase tracking-[0.16em] text-gold font-bold">
                         {project.category}
                       </span>
                     </div>
                   </div>
 
                   <div className="flex flex-1 flex-col p-5 sm:p-6">
-                    <h3 className="font-display text-lg uppercase tracking-[0.04em] text-foreground sm:text-xl">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <MapPin className="size-3 text-gold" />
+                      <span>{project.location}</span>
+                    </div>
+
+                    <h3 className="font-display mt-2 text-lg uppercase tracking-[0.04em] text-foreground sm:text-xl">
                       {project.title}
                     </h3>
-                    <p className="mt-2.5 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground line-clamp-2">
                       {project.summary}
                     </p>
 
-                    <div className="mt-4 flex flex-wrap gap-1.5 border-t border-border pt-4">
+                    <div className="mt-4 flex flex-wrap gap-1.5 border-t border-border/70 pt-4">
                       {project.scope.slice(0, 3).map((item) => (
                         <span
                           key={item}
-                          className="bg-secondary px-2 py-0.5 text-[0.6875rem] font-medium text-muted-foreground"
+                          className="rounded-md bg-secondary/80 px-2.5 py-0.5 text-[0.6875rem] font-semibold text-muted-foreground border border-border/40"
                         >
                           {item}
                         </span>
                       ))}
                       {project.scope.length > 3 ? (
-                        <span className="bg-secondary px-2 py-0.5 text-[0.6875rem] font-medium text-muted-foreground">
+                        <span className="rounded-md bg-secondary/80 px-2 py-0.5 text-[0.6875rem] font-semibold text-muted-foreground border border-border/40">
                           +{project.scope.length - 3} more
                         </span>
                       ) : null}
                     </div>
 
-                    <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
+                    <div className="mt-5 flex items-center justify-between border-t border-border/70 pt-4">
                       <button
                         type="button"
                         onClick={() => setActiveProject(project)}
-                        className="font-display inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.16em] text-ink transition-colors hover:text-gold-deep"
+                        className="font-display inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.14em] text-ink transition-colors hover:text-gold font-bold"
                       >
                         <Eye className="size-3.5" aria-hidden="true" />
-                        View Details
+                        Quick View
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => openEnquiry(project.category)}
-                        className="font-display inline-flex items-center gap-1 text-xs uppercase tracking-[0.16em] text-gold-deep hover:underline"
+                      <Link
+                        to="/projects/$slug"
+                        params={{ slug: project.slug }}
+                        className="font-display inline-flex items-center gap-1 text-xs uppercase tracking-[0.14em] text-gold-deep hover:underline font-bold"
                       >
-                        Inquire
+                        Case Study
                         <ArrowRight className="size-3.5" aria-hidden="true" />
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </article>
               </Reveal>
             ))}
           </div>
+
+          <div className="mt-12 flex justify-center">
+            <Button variant="outlineInk" size="cta" asChild>
+              <Link to="/projects">
+                View All Projects &amp; Specs
+                <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* 6. Construction Process Section */}
-      <section id="process" className="section-pad bg-ink text-on-ink">
-        <div className="blueprint-grid-dark absolute inset-0 opacity-20" aria-hidden="true" />
-        <div className="shell relative">
+      {/* 6. Construction Process & Blueprint Journey */}
+      <section id="process" className="section-pad relative overflow-hidden bg-ink text-on-ink">
+        <img
+          src={images.blueprint}
+          alt="Architectural plan blueprint"
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover brightness-[0.88] contrast-[1.05]"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/65 to-ink/40"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-ink/20"
+          aria-hidden="true"
+        />
+        <div className="blueprint-grid-dark absolute inset-0 opacity-15" aria-hidden="true" />
+        <div className="shell relative z-10">
           <SectionHeading
             eyebrow="Our Process"
             tone="dark"
@@ -168,15 +219,38 @@ function HomePage() {
             subtitle="A transparent, coordinated roadmap from the initial drawing review to key handover."
           />
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Blueprint Journey Visual Pill Steps */}
+          <div className="mt-10 overflow-x-auto pb-4">
+            <div className="flex min-w-[600px] items-center justify-between rounded-2xl glass-card-dark p-4">
+              {journeySteps.map((step, idx) => (
+                <div key={step} className="flex items-center gap-3">
+                  <span className="flex size-8 items-center justify-center rounded-full bg-gold text-xs font-black text-ink shadow-sm">
+                    0{idx + 1}
+                  </span>
+                  <span className="font-display text-sm font-bold uppercase tracking-[0.16em] text-on-ink">
+                    {step}
+                  </span>
+                  {idx < journeySteps.length - 1 ? (
+                    <ArrowRight className="size-4 text-on-ink/30 mx-2" />
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 6 Detail Steps */}
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {processSteps.map((step, idx) => (
-              <Reveal key={step.number} delay={idx * 0.08}>
-                <div className="relative flex h-full flex-col border border-on-ink/15 bg-ink-soft/60 p-6 backdrop-blur-xs transition-colors hover:border-gold/60">
+              <Reveal key={step.number} delay={idx * 0.06}>
+                <div className="group relative flex h-full flex-col rounded-2xl glass-card-dark p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-2xl">
                   <div className="flex items-center justify-between">
                     <span className="font-display text-2xl font-black text-gold">
                       {step.number}
                     </span>
-                    <span className="h-px w-12 bg-on-ink/20" aria-hidden="true" />
+                    <span
+                      className="h-px w-12 bg-on-ink/20 group-hover:bg-gold transition-colors"
+                      aria-hidden="true"
+                    />
                   </div>
                   <h3 className="font-display mt-5 text-lg uppercase tracking-[0.06em] text-on-ink">
                     {step.title}
@@ -197,24 +271,24 @@ function HomePage() {
       </section>
 
       {/* 7. Why Winnet Section */}
-      <section id="why-winnet" className="section-pad bg-secondary/50">
+      <section id="why-winnet" className="section-pad bg-secondary/40">
         <div className="shell">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <SectionHeading
                 eyebrow="Why Winnet"
-                title="Built With Integrity & Engineered Precision"
+                title="Built With Integrity &amp; Engineered Precision"
                 subtitle="We pride ourselves on disciplined project management, vetted tradesmen, and honest communication."
               />
 
-              <div className="mt-8 grid gap-5 sm:grid-cols-2">
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 {whyPillars.map((pillar, idx) => (
                   <Reveal key={pillar.title} delay={idx * 0.06}>
-                    <div className="border border-border bg-card p-5">
-                      <div className="flex size-9 items-center justify-center bg-gold text-ink">
+                    <div className="rounded-xl glass-card p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-gold/60 hover:shadow-lg">
+                      <div className="flex size-9 items-center justify-center rounded-lg bg-gold text-ink shadow-xs">
                         <CheckCircle2 className="size-5" />
                       </div>
-                      <h3 className="font-display mt-4 text-sm uppercase tracking-[0.12em] text-ink">
+                      <h3 className="font-display mt-4 text-sm uppercase tracking-[0.12em] text-ink font-bold">
                         {pillar.title}
                       </h3>
                       <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
@@ -227,9 +301,9 @@ function HomePage() {
             </div>
 
             <div className="space-y-6">
-              <div className="border border-ink/10 bg-ink p-8 text-on-ink">
+              <div className="rounded-2xl glass-card-dark p-8 text-on-ink shadow-xl">
                 <p className="eyebrow text-gold">Direct Oversight</p>
-                <h3 className="h-display mt-3 text-2xl text-on-ink">
+                <h3 className="h-display mt-3 text-2xl text-on-ink sm:text-3xl">
                   Every Site Supervised By Experienced Builders
                 </h3>
                 <p className="mt-4 text-sm leading-relaxed text-on-ink-muted">
@@ -239,18 +313,22 @@ function HomePage() {
                 </p>
                 <div className="mt-6 flex flex-wrap gap-4 border-t border-on-ink/15 pt-6">
                   <div className="flex items-center gap-3">
-                    <ShieldCheck className="size-6 text-gold" />
+                    <div className="flex size-10 items-center justify-center rounded-xl bg-gold/15 text-gold border border-gold/30">
+                      <ShieldCheck className="size-6" />
+                    </div>
                     <div>
-                      <p className="font-display text-xs uppercase tracking-[0.14em] text-on-ink">
+                      <p className="font-display text-xs uppercase tracking-[0.14em] text-on-ink font-bold">
                         Quality Checked
                       </p>
                       <p className="text-[0.6875rem] text-on-ink-muted">Standardized testing</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <CalendarCheck className="size-6 text-gold" />
+                    <div className="flex size-10 items-center justify-center rounded-xl bg-gold/15 text-gold border border-gold/30">
+                      <HardHat className="size-6" />
+                    </div>
                     <div>
-                      <p className="font-display text-xs uppercase tracking-[0.14em] text-on-ink">
+                      <p className="font-display text-xs uppercase tracking-[0.14em] text-on-ink font-bold">
                         Clear Timeline
                       </p>
                       <p className="text-[0.6875rem] text-on-ink-muted">Milestone tracking</p>
@@ -259,20 +337,20 @@ function HomePage() {
                 </div>
               </div>
 
-              <div className="border border-border bg-card p-6">
-                <div className="flex items-center justify-between">
+              <div className="rounded-2xl glass-card p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <h4 className="font-display text-base uppercase tracking-[0.1em] text-ink">
+                    <h4 className="font-display text-base uppercase tracking-[0.1em] text-ink font-bold">
                       Direct Builder Line
                     </h4>
                     <p className="mt-1 text-xs text-muted-foreground">
                       Call or WhatsApp directly for active site inquiries: {company.phoneLocal}
                     </p>
                   </div>
-                  <Button variant="outlineInk" size="sm" asChild>
+                  <Button variant="outlineInk" size="sm" asChild className="shrink-0">
                     <a href={telHref}>
                       <Phone className="size-3.5" />
-                      Call
+                      Call Builder
                     </a>
                   </Button>
                 </div>
@@ -282,32 +360,41 @@ function HomePage() {
         </div>
       </section>
 
-      {/* 8. Gallery / On-Site Highlights */}
+      {/* 8. Gallery Highlights */}
       <section className="section-pad bg-background">
         <div className="shell">
-          <SectionHeading
-            eyebrow="On Site"
-            title="Materials, Craftsmanship & Blueprints"
-            subtitle="A closer look at active construction stages, steel frames, masonry, and architectural plans."
-          />
+          <div className="flex items-end justify-between">
+            <SectionHeading
+              eyebrow="On Site"
+              title="Materials, Craftsmanship &amp; Blueprints"
+              subtitle="A closer look at active construction stages, steel frames, masonry, and architectural plans."
+            />
+            <Button variant="outlineInk" size="sm" asChild className="hidden sm:inline-flex">
+              <Link to="/gallery">
+                View Full Gallery
+                <ArrowRight className="size-3.5" />
+              </Link>
+            </Button>
+          </div>
 
           <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {gallery.map((item, idx) => (
-              <Reveal key={item.label} delay={idx * 0.05}>
+              <Reveal key={item.label} delay={idx * 0.04}>
                 <button
                   type="button"
                   onClick={() => setActiveGalleryImg(item)}
-                  className="group relative aspect-square w-full overflow-hidden border border-border bg-ink text-left"
+                  className="group relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-ink text-left shadow-xs transition-shadow hover:shadow-lg"
                 >
                   <img
                     src={item.src}
                     alt={item.alt}
                     loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover opacity-85 transition-[transform,opacity] duration-500 group-hover:scale-108 group-hover:opacity-100"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  <div className="absolute inset-x-0 bottom-0 p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <p className="font-display text-xs uppercase tracking-[0.14em] text-gold">
+                  <div className="absolute inset-x-0 bottom-0 p-3.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <p className="font-display text-xs uppercase tracking-[0.14em] text-gold font-bold">
                       {item.label}
                     </p>
                   </div>
@@ -318,8 +405,72 @@ function HomePage() {
         </div>
       </section>
 
-      {/* 9. FAQs Section */}
-      <section id="faqs" className="section-pad bg-secondary/60">
+      {/* 9. Testimonials Carousel */}
+      <section className="section-pad bg-ink text-on-ink">
+        <div className="blueprint-grid-dark absolute inset-0 opacity-20" aria-hidden="true" />
+        <div className="shell relative">
+          <div className="flex flex-col items-center text-center">
+            <p className="eyebrow text-gold">Client Experience</p>
+            <h2 className="h-display mt-2 text-3xl sm:text-4xl lg:text-5xl text-on-ink">
+              Feedback &amp; Reputation
+            </h2>
+            <div className="mt-3 inline-flex items-center rounded-full glass-badge px-3.5 py-1 text-[0.625rem] font-bold uppercase tracking-[0.18em] text-gold">
+              Demo / Editable Client Feedback Placeholder
+            </div>
+          </div>
+
+          <div className="mx-auto mt-12 max-w-3xl">
+            <div className="relative rounded-2xl glass-card-dark p-8 sm:p-12 text-center">
+              <Quote className="mx-auto size-10 text-gold/50" />
+              <p className="mt-6 text-lg sm:text-2xl leading-relaxed text-on-ink font-light italic">
+                "{testimonials[testimonialIndex]?.quote}"
+              </p>
+              <div className="mt-6 border-t border-on-ink/15 pt-4">
+                <p className="font-display text-sm uppercase tracking-[0.16em] text-gold font-bold">
+                  {testimonials[testimonialIndex]?.name}
+                </p>
+                <p className="text-xs text-on-ink-muted">{testimonials[testimonialIndex]?.role}</p>
+              </div>
+
+              {/* Prev / Next controls */}
+              <div className="mt-8 flex items-center justify-center gap-4">
+                <button
+                  type="button"
+                  onClick={prevTestimonial}
+                  className="flex size-9 items-center justify-center rounded-full border border-on-ink/20 text-on-ink hover:bg-gold hover:text-ink transition-colors"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft className="size-5" />
+                </button>
+                <div className="flex gap-1.5">
+                  {testimonials.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setTestimonialIndex(i)}
+                      className={`h-2 rounded-full transition-all ${
+                        testimonialIndex === i ? "w-6 bg-gold" : "w-2 bg-on-ink/30"
+                      }`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={nextTestimonial}
+                  className="flex size-9 items-center justify-center rounded-full border border-on-ink/20 text-on-ink hover:bg-gold hover:text-ink transition-colors"
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight className="size-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 10. FAQs Section */}
+      <section id="faqs" className="section-pad bg-secondary/40">
         <div className="shell max-w-4xl">
           <SectionHeading
             eyebrow="FAQ"
@@ -328,13 +479,13 @@ function HomePage() {
             align="center"
           />
 
-          <div className="mt-12 space-y-3">
+          <div className="mt-12 space-y-3.5">
             {faqs.map((faq, index) => {
               const isOpen = expandedFaq === index;
               return (
                 <div
                   key={faq.q}
-                  className="border border-border bg-card transition-colors hover:border-ink/30"
+                  className="rounded-xl glass-card transition-all hover:border-ink/30 overflow-hidden"
                 >
                   <button
                     type="button"
@@ -342,7 +493,7 @@ function HomePage() {
                     className="flex w-full items-center justify-between p-5 text-left transition-colors sm:p-6"
                     aria-expanded={isOpen}
                   >
-                    <span className="font-display text-sm uppercase tracking-[0.06em] text-foreground sm:text-base">
+                    <span className="font-display text-sm uppercase tracking-[0.06em] text-foreground sm:text-base font-bold">
                       {faq.q}
                     </span>
                     <ChevronDown
@@ -352,7 +503,7 @@ function HomePage() {
                     />
                   </button>
                   {isOpen ? (
-                    <div className="border-t border-border/80 px-5 pb-6 pt-4 text-sm leading-relaxed text-muted-foreground sm:px-6">
+                    <div className="border-t border-border/70 px-5 pb-6 pt-4 text-sm leading-relaxed text-muted-foreground sm:px-6">
                       {faq.a}
                     </div>
                   ) : null}
@@ -363,34 +514,102 @@ function HomePage() {
         </div>
       </section>
 
-      {/* 10. Final Call to Action */}
-      <section className="relative overflow-hidden bg-ink py-20 text-on-ink lg:py-28">
-        <div className="blueprint-grid-dark absolute inset-0 opacity-30" aria-hidden="true" />
-        <div className="shell relative text-center">
-          <p className="eyebrow text-gold">Ready to build?</p>
-          <h2 className="h-display mx-auto mt-4 max-w-3xl text-3xl sm:text-5xl lg:text-6xl">
-            Let's Bring Your Construction Vision To Life.
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-base text-on-ink-muted sm:text-lg">
-            Reach out for a detailed estimate, drawing review, or on-site consultation in Ghana.
-          </p>
+      {/* 11. Embedded Direct Contact / Consultation Section */}
+      <section id="contact" className="section-pad bg-background border-t border-border/60">
+        <div className="shell">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr]">
+            <div>
+              <SectionHeading
+                eyebrow="Get In Touch"
+                title="Discuss Your Next Construction Project"
+                subtitle="Share your site location, scope, or drawings. We review every request and respond with next practical steps."
+              />
 
-          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-            <Button variant="gold" size="ctaLg" onClick={() => openEnquiry()}>
-              Start Your Project Today
-              <ArrowRight aria-hidden="true" />
-            </Button>
-            <Button variant="outlineLight" size="ctaLg" asChild>
-              <a href={telHref}>
-                <Phone aria-hidden="true" />
-                Call {company.phoneLocal}
-              </a>
-            </Button>
+              <div className="mt-8 space-y-4">
+                <div className="rounded-xl glass-card p-5">
+                  <p className="eyebrow text-gold-deep">Direct Builder Line</p>
+                  <a
+                    href={telHref}
+                    className="font-display mt-1 block text-lg font-bold uppercase text-ink hover:text-gold"
+                  >
+                    {company.phoneDisplay}
+                  </a>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Available for site assessments and urgent project inquiries.
+                  </p>
+                </div>
+
+                <div className="rounded-xl glass-card p-5">
+                  <p className="eyebrow text-gold-deep">Official Email</p>
+                  <a
+                    href={`mailto:${company.email}`}
+                    className="font-display mt-1 block text-base font-bold text-ink hover:text-gold break-all"
+                  >
+                    {company.email}
+                  </a>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Send blueprints, CAD drawings, or bills of quantities.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Embedded Form */}
+            <div className="rounded-2xl glass-card p-6 sm:p-8 shadow-md">
+              <h3 className="font-display text-xl uppercase tracking-[0.06em] text-foreground mb-6">
+                Send Project Enquiry
+              </h3>
+              <ProjectEnquiryForm />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Modal: Project Detail View */}
+      {/* 12. Final Call to Action */}
+      <section className="relative overflow-hidden bg-ink py-20 text-on-ink lg:py-28">
+        <img
+          src={images.cta}
+          alt="Modern architectural construction development"
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover brightness-[0.88] contrast-[1.05]"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/60 to-ink/40"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-ink/20"
+          aria-hidden="true"
+        />
+        <div className="blueprint-grid-dark absolute inset-0 opacity-15" aria-hidden="true" />
+        <div className="shell relative z-10 text-center">
+          <div className="mx-auto max-w-3xl rounded-3xl glass-card-dark p-8 sm:p-12 backdrop-blur-2xl">
+            <p className="eyebrow text-gold">Ready to build?</p>
+            <h2 className="h-display mx-auto mt-4 text-3xl sm:text-5xl lg:text-6xl">
+              Let's Bring Your Construction Vision To Life.
+            </h2>
+            <p className="mx-auto mt-6 max-w-xl text-base text-on-ink-muted sm:text-lg">
+              Reach out for a detailed estimate, drawing review, or on-site consultation in Ghana.
+            </p>
+
+            <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+              <Button variant="gold" size="ctaLg" onClick={() => openEnquiry()}>
+                Start Your Project Today
+                <ArrowRight aria-hidden="true" />
+              </Button>
+              <Button variant="outlineLight" size="ctaLg" asChild>
+                <a href={telHref}>
+                  <Phone aria-hidden="true" />
+                  Call {company.phoneLocal}
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Modal: Project Detail Quick View */}
       <AnimatePresence>
         {activeProject ? (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -399,26 +618,26 @@ function HomePage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveProject(null)}
-              className="absolute inset-0 bg-ink/80 backdrop-blur-xs"
+              className="absolute inset-0 bg-ink/85 backdrop-blur-xs"
             />
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto border border-border bg-card p-6 shadow-2xl sm:p-8"
+              className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-border bg-card p-6 shadow-2xl sm:p-8"
             >
               <button
                 type="button"
                 onClick={() => setActiveProject(null)}
-                className="absolute right-4 top-4 flex size-8 items-center justify-center border border-border text-muted-foreground hover:text-foreground"
+                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:text-foreground"
                 aria-label="Close project modal"
               >
                 <X className="size-5" />
               </button>
 
               <div className="flex items-center gap-2">
-                <span className="font-display bg-gold px-2.5 py-1 text-[0.625rem] uppercase tracking-[0.16em] text-ink">
+                <span className="font-display rounded-md bg-gold px-2.5 py-1 text-[0.625rem] uppercase tracking-[0.16em] text-ink font-bold">
                   {activeProject.category}
                 </span>
                 <span className="text-xs text-muted-foreground">{activeProject.location}</span>
@@ -429,24 +648,26 @@ function HomePage() {
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">{activeProject.summary}</p>
 
-              <div className="mt-6 aspect-[16/9] overflow-hidden bg-ink/10">
+              <div className="mt-6 aspect-[16/9] overflow-hidden rounded-xl bg-ink">
                 <img
                   src={activeProject.image}
                   alt={activeProject.title}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover"
                 />
               </div>
 
               <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted-foreground">
                 <div>
-                  <h4 className="font-display text-xs uppercase tracking-[0.16em] text-foreground">
+                  <h4 className="font-display text-xs uppercase tracking-[0.16em] text-foreground font-bold">
                     Project Scope
                   </h4>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {activeProject.scope.map((s) => (
                       <span
                         key={s}
-                        className="bg-secondary px-3 py-1 text-xs font-medium text-foreground"
+                        className="rounded-lg bg-secondary px-3 py-1 text-xs font-semibold text-foreground border border-border/60"
                       >
                         {s}
                       </span>
@@ -455,14 +676,14 @@ function HomePage() {
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="border border-border p-4">
-                    <h5 className="font-display text-xs uppercase tracking-[0.14em] text-foreground">
+                  <div className="rounded-xl border border-border p-4">
+                    <h5 className="font-display text-xs uppercase tracking-[0.14em] text-foreground font-bold">
                       Overview &amp; Brief
                     </h5>
                     <p className="mt-1 text-xs text-muted-foreground">{activeProject.brief}</p>
                   </div>
-                  <div className="border border-border p-4">
-                    <h5 className="font-display text-xs uppercase tracking-[0.14em] text-foreground">
+                  <div className="rounded-xl border border-border p-4">
+                    <h5 className="font-display text-xs uppercase tracking-[0.14em] text-foreground font-bold">
                       Execution &amp; Delivery
                     </h5>
                     <p className="mt-1 text-xs text-muted-foreground">{activeProject.work}</p>
@@ -505,12 +726,12 @@ function HomePage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="relative max-h-[85vh] max-w-4xl overflow-hidden border border-on-ink/20 bg-ink p-4"
+              className="relative max-h-[85vh] max-w-4xl overflow-hidden rounded-2xl border border-on-ink/20 bg-ink p-4 shadow-2xl"
             >
               <button
                 type="button"
                 onClick={() => setActiveGalleryImg(null)}
-                className="absolute right-4 top-4 z-10 flex size-8 items-center justify-center bg-ink/80 text-on-ink hover:text-gold"
+                className="absolute right-4 top-4 z-10 flex size-8 items-center justify-center rounded-lg bg-ink/80 text-on-ink hover:text-gold"
                 aria-label="Close image lightbox"
               >
                 <X className="size-5" />
@@ -518,9 +739,11 @@ function HomePage() {
               <img
                 src={activeGalleryImg.src}
                 alt={activeGalleryImg.alt}
-                className="max-h-[70vh] w-auto object-contain"
+                loading="lazy"
+                decoding="async"
+                className="max-h-[70vh] w-auto rounded-xl object-contain mx-auto"
               />
-              <p className="font-display mt-3 text-center text-xs uppercase tracking-[0.16em] text-gold">
+              <p className="font-display mt-3 text-center text-xs uppercase tracking-[0.16em] text-gold font-bold">
                 {activeGalleryImg.label}
               </p>
             </motion.div>

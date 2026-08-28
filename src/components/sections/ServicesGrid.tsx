@@ -16,7 +16,7 @@ export function ServicesGrid() {
           subtitle="Practical construction solutions from planning to finishing."
         />
 
-        <div className="mt-12 grid gap-px bg-on-ink/10 sm:grid-cols-2 lg:grid-cols-3 lg:mt-16">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:mt-16">
           {services.map((service, index) => (
             <ServiceCard key={service.slug} service={service} index={index} />
           ))}
@@ -35,19 +35,20 @@ export function ServiceCard({ service, index }: { service: Service; index: numbe
       delay={Math.min(index, 5) * 0.05}
       className={wide ? "sm:col-span-2 lg:col-span-2" : undefined}
     >
-      <article className="group relative flex h-full flex-col overflow-hidden bg-ink">
+      <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl glass-card-dark transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-2xl">
         <div className={`relative overflow-hidden ${wide ? "aspect-[16/9]" : "aspect-[4/3]"}`}>
           <img
             src={service.image}
             alt={service.title}
             loading="lazy"
-            className="h-full w-full object-cover opacity-70 transition-[transform,opacity] duration-700 group-hover:scale-105 group-hover:opacity-90"
+            decoding="async"
+            className="h-full w-full object-cover opacity-90 transition-[transform,opacity] duration-700 group-hover:scale-105 group-hover:opacity-100"
           />
           <div
-            className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent"
+            className="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-transparent"
             aria-hidden="true"
           />
-          <span className="absolute left-5 top-5 flex size-11 items-center justify-center border border-on-ink/25 bg-ink/70 text-gold backdrop-blur-sm transition-transform duration-500 group-hover:-translate-y-1">
+          <span className="absolute left-5 top-5 flex size-11 items-center justify-center rounded-xl glass-badge text-gold transition-transform duration-500 group-hover:-translate-y-1">
             <ServiceIcon name={service.icon} />
           </span>
         </div>
@@ -65,12 +66,12 @@ export function ServiceCard({ service, index }: { service: Service; index: numbe
           </p>
           <button
             type="button"
-            onClick={() => openEnquiry()}
-            className="font-display mt-5 inline-flex w-fit items-center gap-2 text-[0.625rem] uppercase tracking-[0.2em] text-gold transition-colors hover:text-on-ink"
+            onClick={() => openEnquiry(service.title)}
+            className="font-display mt-5 inline-flex w-fit items-center gap-2 rounded-lg glass-badge px-3.5 py-2 text-[0.6875rem] uppercase tracking-[0.16em] text-gold transition-all hover:bg-gold hover:text-ink font-bold"
           >
-            Learn More
+            Inquire For Service
             <ArrowUpRight
-              className="size-3.5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+              className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               aria-hidden="true"
             />
           </button>
