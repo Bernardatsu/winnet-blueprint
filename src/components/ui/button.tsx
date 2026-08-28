@@ -16,12 +16,24 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        /** Primary conversion CTA — construction yellow on charcoal text. */
+        gold: "font-display uppercase tracking-[0.14em] rounded-none bg-gold text-ink hover:bg-gold-deep active:translate-y-px transition-[background-color,transform]",
+        /** Dark solid CTA for light backgrounds. */
+        ink: "font-display uppercase tracking-[0.14em] rounded-none bg-ink text-on-ink hover:bg-ink-soft active:translate-y-px transition-[background-color,transform]",
+        /** Outlined CTA on dark/photographic backgrounds. */
+        outlineLight:
+          "font-display uppercase tracking-[0.14em] rounded-none border border-on-ink/40 text-on-ink hover:border-gold hover:text-gold bg-transparent",
+        /** Outlined CTA on light backgrounds. */
+        outlineInk:
+          "font-display uppercase tracking-[0.14em] rounded-none border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-on-ink bg-transparent",
       },
       size: {
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
+        cta: "h-12 px-6 text-xs sm:text-[0.8125rem]",
+        ctaLg: "h-14 px-8 text-xs sm:text-sm",
       },
     },
     defaultVariants: {
@@ -30,6 +42,7 @@ const buttonVariants = cva(
     },
   },
 );
+
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
