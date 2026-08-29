@@ -93,7 +93,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-import { getGeneralContractorSchema } from "@/lib/seo";
+import { getRootSchemas, DEFAULT_KEYWORDS, SITE_URL } from "@/lib/seo";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -101,33 +101,49 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "google-site-verification", content: "google4cfcc257bdd58937" },
-      { title: `${company.name} | ${company.motto}` },
+      { title: `${company.name} | ${company.motto} - Building Contractors in Ghana` },
       {
         name: "description",
         content:
-          "Professional residential, commercial, and civil construction services in Ghana. Quality workmanship, careful planning, and dependable project delivery.",
+          "Winnet Construction Ltd is a premier building and civil engineering contractor in Ghana. Specializing in residential villas, commercial structures, structural reinforcement, and quality architectural finishes.",
       },
+      { name: "keywords", content: DEFAULT_KEYWORDS.join(", ") },
       { name: "author", content: company.name },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "Winnet" },
+      { name: "application-name", content: company.name },
       { name: "theme-color", content: "#0d0d0d" },
+      { name: "msapplication-TileColor", content: "#0d0d0d" },
+      { name: "msapplication-TileImage", content: "/icon-192x192.png" },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
       { property: "og:site_name", content: company.name },
       { property: "og:title", content: `${company.name} | ${company.motto}` },
       {
         property: "og:description",
         content:
-          "Professional residential, commercial, and civil construction services in Ghana. Quality workmanship, careful planning, and dependable project delivery.",
+          "Winnet Construction Ltd is a premier building and civil engineering contractor in Ghana. Specializing in residential villas, commercial structures, and quality architectural finishes.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_URL}/` },
       { property: "og:locale", content: "en_GH" },
-      { property: "og:image", content: "/winnet-logo-horizontal.svg" },
+      { property: "og:image", content: `${SITE_URL}/icon-512x512.png` },
       { property: "og:image:alt", content: `${company.name} — ${company.motto}` },
+      { property: "og:image:width", content: "512" },
+      { property: "og:image:height", content: "512" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: `${company.name} | ${company.motto}` },
       {
         name: "twitter:description",
         content:
-          "Professional residential, commercial, and civil construction services in Ghana. Quality workmanship, careful planning, and dependable project delivery.",
+          "Premier building and civil engineering contractor in Ghana. Residential, commercial, and structural works.",
       },
-      { name: "twitter:image", content: "/winnet-logo-horizontal.svg" },
+      { name: "twitter:image", content: `${SITE_URL}/winnet-logo-horizontal.svg` },
+      { name: "twitter:image:alt", content: `${company.name} — ${company.motto}` },
     ],
     links: [
       { rel: "preconnect", href: "https://images.unsplash.com" },
@@ -136,14 +152,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-      { rel: "apple-touch-icon", href: "/winnet-icon-square-512.svg" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml", sizes: "any" },
+      { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon", sizes: "48x48" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "apple-touch-icon", href: "/icon-192x192.png", sizes: "192x192" },
+      { rel: "mask-icon", href: "/favicon.svg", color: "#F2B23C" },
+      { rel: "manifest", href: "/site.webmanifest" },
     ],
     scripts: [
       {
         type: "application/ld+json",
-        children: JSON.stringify(getGeneralContractorSchema()),
+        children: JSON.stringify(getRootSchemas()),
       },
     ],
   }),

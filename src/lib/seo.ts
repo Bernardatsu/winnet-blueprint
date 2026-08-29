@@ -29,20 +29,29 @@ export type TanStackLinkTag = {
   type?: string;
   sizes?: string;
   as?: string;
+  crossOrigin?: string;
 };
 
-const SITE_URL = "https://winnetconstruction.com";
-const DEFAULT_OG_IMAGE = "/winnet-logo-horizontal.svg";
-const DEFAULT_KEYWORDS = [
+export const SITE_URL = "https://winnet-constructions.vercel.app";
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/winnet-logo-horizontal.svg`;
+export const DEFAULT_LOGO_ICON = `${SITE_URL}/winnet-icon-square-512.svg`;
+
+export const DEFAULT_KEYWORDS = [
   "Winnet Construction Ltd",
+  "Winnet Construction",
+  "Winnet Constructions",
   "construction company Ghana",
   "building contractors in Ghana",
-  "civil engineering contractor Accra",
-  "residential construction Ghana",
-  "commercial builder Ghana",
-  "structural works Ghana",
+  "construction companies in Accra",
+  "civil engineering contractor Ghana",
+  "residential builders Ghana",
+  "commercial construction Accra",
+  "building contractors Accra Ghana",
+  "structural engineering Ghana",
   "renovations Accra",
   "building estimation Ghana",
+  "building a house in Ghana",
+  "diaspora building contractors Ghana",
   "architectural execution Ghana",
 ];
 
@@ -67,12 +76,22 @@ export function buildSeoMeta(options: SeoOptions): {
   links?: TanStackLinkTag[];
 } {
   const fullTitle = formatTitle(options.title);
-  const ogImage = options.image || DEFAULT_OG_IMAGE;
+  const ogImage = options.image?.startsWith("http")
+    ? options.image
+    : options.image
+      ? `${SITE_URL}${options.image.startsWith("/") ? "" : "/"}${options.image}`
+      : DEFAULT_OG_IMAGE;
   const imageAlt = options.imageAlt || `${company.name} — ${company.motto}`;
 
   const keywordsString = Array.isArray(options.keywords)
     ? options.keywords.join(", ")
     : options.keywords || DEFAULT_KEYWORDS.join(", ");
+
+  const canonicalUrl = options.canonical
+    ? options.canonical.startsWith("http")
+      ? options.canonical
+      : `${SITE_URL}${options.canonical.startsWith("/") ? "" : "/"}${options.canonical}`
+    : SITE_URL;
 
   const meta: TanStackMetaTag[] = [
     // Standard Meta
@@ -80,6 +99,8 @@ export function buildSeoMeta(options: SeoOptions): {
     { name: "description", content: options.description },
     { name: "keywords", content: keywordsString },
     { name: "author", content: options.author || company.name },
+    { name: "application-name", content: company.name },
+    { name: "apple-mobile-web-app-title", content: company.name },
     { name: "theme-color", content: "#0d0d0d" },
     {
       name: "robots",
@@ -93,9 +114,12 @@ export function buildSeoMeta(options: SeoOptions): {
     { property: "og:title", content: fullTitle },
     { property: "og:description", content: options.description },
     { property: "og:type", content: options.type || "website" },
+    { property: "og:url", content: canonicalUrl },
     { property: "og:locale", content: "en_GH" },
     { property: "og:image", content: ogImage },
     { property: "og:image:alt", content: imageAlt },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
 
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
@@ -104,13 +128,6 @@ export function buildSeoMeta(options: SeoOptions): {
     { name: "twitter:image", content: ogImage },
     { name: "twitter:image:alt", content: imageAlt },
   ];
-
-  if (options.canonical) {
-    const canonicalUrl = options.canonical.startsWith("http")
-      ? options.canonical
-      : `${SITE_URL}${options.canonical.startsWith("/") ? "" : "/"}${options.canonical}`;
-    meta.push({ property: "og:url", content: canonicalUrl });
-  }
 
   if (options.type === "article" && options.publishedTime) {
     meta.push({ property: "article:published_time", content: options.publishedTime });
@@ -126,15 +143,9 @@ export function buildSeoMeta(options: SeoOptions): {
     }
   }
 
-  const links: TanStackLinkTag[] = [];
-  if (options.canonical) {
-    const canonicalUrl = options.canonical.startsWith("http")
-      ? options.canonical
-      : `${SITE_URL}${options.canonical.startsWith("/") ? "" : "/"}${options.canonical}`;
-    links.push({ rel: "canonical", href: canonicalUrl });
-  }
+  const links: TanStackLinkTag[] = [{ rel: "canonical", href: canonicalUrl }];
 
-  return { meta, links: links.length > 0 ? links : undefined };
+  return { meta, links };
 }
 
 /**
@@ -142,18 +153,22 @@ export function buildSeoMeta(options: SeoOptions): {
  */
 
 export const homeSeoConfig: SeoOptions = {
-  title: "Building Contractors & Civil Engineering in Ghana",
+  title: `${company.name} | Building Contractors & Civil Engineering in Ghana`,
   description:
     "Winnet Construction Ltd is a premier building and civil engineering contractor in Ghana. Specializing in residential villas, commercial structures, structural reinforcement, and quality architectural finishes.",
   keywords: [
     "Winnet Construction Ltd",
+    "Winnet Construction",
+    "Winnet Constructions",
     "construction company Ghana",
     "building contractors in Ghana",
-    "civil engineering Accra",
+    "civil engineering contractor Accra",
     "residential building Ghana",
-    "commercial construction contractor",
+    "commercial construction contractor Accra",
     "structural engineers Ghana",
     "building renovation Accra",
+    "house building in Ghana",
+    "diaspora construction Ghana",
     "construction quotation Ghana",
   ],
   canonical: "/",
@@ -163,7 +178,7 @@ export const homeSeoConfig: SeoOptions = {
 };
 
 export const projectsSeoConfig: SeoOptions = {
-  title: "Projects & Construction Portfolio",
+  title: `Projects & Construction Portfolio | ${company.name}`,
   description:
     "Explore completed and ongoing construction projects by Winnet Construction Ltd across Ghana: custom residential villas, multi-storey commercial developments, structural renovations, and architectural finishes.",
   keywords: [
@@ -173,6 +188,7 @@ export const projectsSeoConfig: SeoOptions = {
     "structural engineering case studies",
     "building contractors portfolio",
     "construction before after Ghana",
+    "Winnet Construction projects",
   ],
   canonical: "/projects",
   image: images.residential,
@@ -182,7 +198,7 @@ export const projectsSeoConfig: SeoOptions = {
 
 export function getProjectDetailSeo(project: Project): SeoOptions {
   return {
-    title: `${project.title} | ${project.category} Project`,
+    title: `${project.title} | Case Study | ${company.name}`,
     description: `${project.summary} Located in ${project.location}. Execution scope includes: ${project.scope.slice(0, 3).join(", ")}.`,
     keywords: [
       project.title,
@@ -190,6 +206,7 @@ export function getProjectDetailSeo(project: Project): SeoOptions {
       `building in ${project.location}`,
       ...project.scope,
       "Winnet Construction Ltd case study",
+      "building contractor Ghana",
     ],
     canonical: `/projects/${project.slug}`,
     image: project.image,
@@ -201,7 +218,7 @@ export function getProjectDetailSeo(project: Project): SeoOptions {
 }
 
 export const contactSeoConfig: SeoOptions = {
-  title: "Contact & Project Consultation",
+  title: `Contact & Project Consultation | ${company.name}`,
   description:
     "Contact Winnet Construction Ltd for construction estimates, on-site consultations, architectural drawing review, and project planning in Ghana. Phone: 0549074200 / WhatsApp: +233549074200.",
   keywords: [
@@ -211,6 +228,7 @@ export const contactSeoConfig: SeoOptions = {
     "construction quotation Ghana",
     "construction WhatsApp Ghana",
     "building contractor phone number Ghana",
+    "Winnet Construction address Accra",
   ],
   canonical: "/contact",
   image: images.cta,
@@ -219,9 +237,16 @@ export const contactSeoConfig: SeoOptions = {
 };
 
 export const aboutSeoConfig: SeoOptions = {
-  title: "About Us | Our Philosophy & Craftsmanship",
+  title: `About Us | Our Philosophy & Engineering Craftsmanship | ${company.name}`,
   description:
     "Learn about Winnet Construction Ltd: our commitment to structural integrity, meticulous craftsmanship, honest pricing, and professional project delivery across Ghana.",
+  keywords: [
+    "About Winnet Construction",
+    "construction team Ghana",
+    "building contractor profile Accra",
+    "civil engineering Ghana values",
+    "structural engineers Accra",
+  ],
   canonical: "/about",
   image: images.about,
   imageAlt: "Winnet Construction Ltd engineering and project management team",
@@ -229,9 +254,17 @@ export const aboutSeoConfig: SeoOptions = {
 };
 
 export const servicesSeoConfig: SeoOptions = {
-  title: "Construction & Engineering Services",
+  title: `Construction & Engineering Services | ${company.name}`,
   description:
     "Comprehensive building solutions in Ghana: residential home building, commercial developments, structural works, complete renovations, interior finishes, and consultation.",
+  keywords: [
+    "construction services Ghana",
+    "residential construction Accra",
+    "commercial builders Ghana",
+    "structural framing concrete Ghana",
+    "home renovation Accra",
+    "architectural finishing Ghana",
+  ],
   canonical: "/services",
   image: images.structural,
   imageAlt: "Comprehensive construction and engineering services by Winnet Construction Ltd",
@@ -239,9 +272,16 @@ export const servicesSeoConfig: SeoOptions = {
 };
 
 export const processSeoConfig: SeoOptions = {
-  title: "Our Construction Process | Step-by-Step Delivery",
+  title: `Our 6-Step Construction Process | ${company.name}`,
   description:
     "Understand how Winnet Construction Ltd takes your project from initial consultation and drawing review through structural framing, inspections, and final handover.",
+  keywords: [
+    "construction process Ghana",
+    "building roadmap Ghana",
+    "construction stages Accra",
+    "architectural execution Ghana",
+    "construction supervision Ghana",
+  ],
   canonical: "/process",
   image: images.blueprint,
   imageAlt: "Winnet Construction step-by-step building roadmap and architectural process",
@@ -249,9 +289,16 @@ export const processSeoConfig: SeoOptions = {
 };
 
 export const whyWinnetSeoConfig: SeoOptions = {
-  title: "Why Winnet | The Quality Built Advantage",
+  title: `Why Choose Winnet | The Quality Built Advantage | ${company.name}`,
   description:
     "Discover why homeowners and developers trust Winnet Construction Ltd for structural durability, transparent cost reporting, experienced supervision, and on-time completion.",
+  keywords: [
+    "why choose Winnet Construction",
+    "trusted building contractor Ghana",
+    "quality construction Accra",
+    "reliable builder Ghana",
+    "structural durability",
+  ],
   canonical: "/why-winnet",
   image: images.hero,
   imageAlt: "Why choose Winnet Construction Ltd for your building project",
@@ -259,9 +306,16 @@ export const whyWinnetSeoConfig: SeoOptions = {
 };
 
 export const gallerySeoConfig: SeoOptions = {
-  title: "Visual Gallery & On-Site Craftsmanship",
+  title: `Visual Gallery & On-Site Construction Records | ${company.name}`,
   description:
-    "High-resolution on-site photography documenting our masonry, structural reinforcement, steel framing, interior plastering, and fine architectural finishes.",
+    "High-resolution on-site photography documenting our masonry, structural reinforcement, steel framing, interior plastering, and fine architectural finishes in Ghana.",
+  keywords: [
+    "construction gallery Ghana",
+    "building photos Accra",
+    "masonry photos Ghana",
+    "structural rebar photos",
+    "finishing work Ghana",
+  ],
   canonical: "/gallery",
   image: images.masonry,
   imageAlt: "On-site masonry and structural construction photography by Winnet Construction Ltd",
@@ -272,18 +326,55 @@ export const gallerySeoConfig: SeoOptions = {
  * Structured Data (JSON-LD) Generators for Schema.org SEO compliance
  */
 
+export function getWebSiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    url: `${SITE_URL}/`,
+    name: "Winnet Construction Ltd",
+    alternateName: [
+      "Winnet Construction",
+      "Winnet Constructions",
+      "Winnet",
+      "Winnet Construction Ghana",
+    ],
+    description: company.motto,
+    publisher: {
+      "@id": `${SITE_URL}/#organization`,
+    },
+    inLanguage: "en-GH",
+  };
+}
+
 export function getGeneralContractorSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "GeneralContractor",
+    "@id": `${SITE_URL}/#organization`,
     name: company.name,
     legalName: "Winnet Construction Ltd",
-    alternateName: ["Winnet", "Winnet Construction"],
+    alternateName: [
+      "Winnet",
+      "Winnet Construction",
+      "Winnet Constructions",
+      "Winnet Construction Ghana",
+    ],
     description:
-      "Premier residential, commercial, and civil construction contractor in Ghana. Specializing in durable structures, villas, and architectural finishes.",
-    url: SITE_URL,
-    logo: `${SITE_URL}/winnet-logo-horizontal.svg`,
-    image: `${SITE_URL}/winnet-icon-square-512.svg`,
+      "Winnet Construction Ltd is a premier residential, commercial, and civil construction contractor in Ghana. Specializing in durable structures, villas, and architectural finishes.",
+    url: `${SITE_URL}/`,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/winnet-icon-square-512.svg`,
+      width: 512,
+      height: 512,
+      caption: "Winnet Construction Ltd Official Logo",
+    },
+    image: [
+      `${SITE_URL}/winnet-icon-square-512.svg`,
+      `${SITE_URL}/winnet-logo-horizontal.svg`,
+      images.hero,
+    ],
     telephone: `+${company.phoneInternational}`,
     email: company.email,
     slogan: company.motto,
@@ -291,17 +382,31 @@ export function getGeneralContractorSchema() {
     openingHours: "Mo-Sa 08:00-18:00",
     address: {
       "@type": "PostalAddress",
+      addressLocality: "Accra",
+      addressRegion: "Greater Accra Region",
       addressCountry: "GH",
-      addressRegion: "Ghana",
     },
     geo: {
       "@type": "GeoCoordinates",
       latitude: "5.6037",
       longitude: "-0.1870",
     },
-    areaServed: {
-      "@type": "Country",
-      name: "Ghana",
+    areaServed: [
+      { "@type": "Country", name: "Ghana" },
+      { "@type": "City", name: "Accra" },
+      { "@type": "City", name: "Tema" },
+      { "@type": "City", name: "Kumasi" },
+      { "@type": "City", name: "Takoradi" },
+      { "@type": "City", name: "East Legon" },
+      { "@type": "City", name: "Airport Residential" },
+      { "@type": "City", name: "Cantonments" },
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: `+${company.phoneInternational}`,
+      contactType: "customer service",
+      areaServed: "GH",
+      availableLanguage: ["en"],
     },
     knowsAbout: [
       "Residential Building Construction",
@@ -311,7 +416,58 @@ export function getGeneralContractorSchema() {
       "Building Renovation & Remodeling",
       "Architectural Finishing & Plastering",
       "Bill of Quantities & Construction Estimation",
+      "Roofing and Steel Framing",
     ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Construction Services",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Residential Villa & Home Construction",
+            description:
+              "End-to-end residential construction with structural integrity and custom finishes.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Commercial Building & Retail Complexes",
+            description: "Multi-storey commercial structures, offices, and warehouses.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Structural Framing & Civil Engineering",
+            description: "Reinforced concrete, foundations, columns, beams, and civil earthworks.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Full Building Renovations & Modernization",
+            description:
+              "Structural retrofitting, space reconfiguration, and premium architectural upgrades.",
+          },
+        },
+      ],
+    },
+  };
+}
+
+/**
+ * Returns composite JSON-LD schema array for the site root (WebSite + Organization/GeneralContractor)
+ */
+export function getRootSchemas() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [getWebSiteSchema(), getGeneralContractorSchema()],
   };
 }
 
@@ -325,6 +481,7 @@ export function getProjectSchema(project: Project) {
     image: project.image,
     creator: {
       "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
       name: company.name,
     },
     locationCreated: {
@@ -344,7 +501,9 @@ export function getBreadcrumbSchema(items: { name: string; url: string }[]) {
       "@type": "ListItem",
       position: idx + 1,
       name: item.name,
-      item: item.url.startsWith("http") ? item.url : `${SITE_URL}${item.url}`,
+      item: item.url.startsWith("http")
+        ? item.url
+        : `${SITE_URL}${item.url.startsWith("/") ? "" : "/"}${item.url}`,
     })),
   };
 }
