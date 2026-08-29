@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://winnet-constructions.vercel.app/sitemap.xml
