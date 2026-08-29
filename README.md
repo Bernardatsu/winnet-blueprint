@@ -408,22 +408,37 @@ It should convert visitors into:
 Build the complete UI/UX and functional frontend now.
 Do not stop at a wireframe.
 Do not create a generic template.
-Create the actual polished website experience.
+Create the actual polished website experience. Absolutely. The correct email is:
+
+Fredmawuli123@gmail.com ✅
+
+So everywhere in the Lovable master prompt, replace:
+
+Fredmawuli123@gmai.com
+
+with:
+
+Fredmawuli123@gmail.com
+
+The booking/enquiry system should therefore send email enquiries to Fredmawuli123@gmail.com.
+
+This project was built with [Lovable](https://lovable.dev).
+
+## Build with Lovable
+
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/ca2a4d40-6c73-420f-b418-718826ae1600).
+
+- **Ship faster**: describe what you want to build and Lovable handles the code.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
-You need Node.js (v20+) and npm:
+Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
-# Install dependencies
-npm install
-
-# Run development server
+git clone <this-repository-url>
+cd <repository-name>
+npm i
 npm run dev
-
-# Build production bundle
-npm run build
-
-# Preview production build
-npm run preview
 ```
