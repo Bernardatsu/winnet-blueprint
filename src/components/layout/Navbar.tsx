@@ -16,7 +16,7 @@ export function Navbar() {
   const overHero = pathname === "/";
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -36,25 +36,33 @@ export function Navbar() {
   const solid = scrolled || !overHero;
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color,box-shadow] duration-300 ${
-        solid
-          ? "border-b border-on-ink/15 bg-ink/80 backdrop-blur-xl shadow-lg shadow-black/25"
-          : "border-b border-transparent bg-transparent"
-      }`}
+    <motion.header
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed inset-x-0 top-0 z-50 pointer-events-none px-3 pt-3 sm:px-6 sm:pt-4 lg:pt-5"
     >
-      <div className="shell flex h-16 items-center justify-between gap-4 lg:h-20">
+      <div
+        className={`pointer-events-auto mx-auto flex items-center justify-between gap-3 sm:gap-4 rounded-full px-3.5 sm:px-5 py-2 sm:py-2.5 max-w-6xl transition-all duration-300 ${
+          solid
+            ? "bg-black/40 border border-white/20 backdrop-blur-2xl backdrop-saturate-150 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.35),0_12px_40px_rgba(0,0,0,0.5)] ring-1 ring-black/20"
+            : "bg-white/[0.08] border border-white/25 backdrop-blur-xl backdrop-saturate-150 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.4),0_8px_32px_rgba(0,0,0,0.25)] hover:bg-white/[0.12] hover:border-gold/40"
+        }`}
+      >
         <Link
           to="/"
-          className="group flex items-center gap-3"
+          className="group flex items-center gap-2.5 sm:gap-3 shrink-0"
           aria-label={`${company.name} — home`}
         >
-          <WinnetIcon className="size-9 rounded-md shadow-sm transition-transform duration-200 group-hover:scale-105" />
+          <div className="relative">
+            <WinnetIcon className="size-8 sm:size-9 rounded-lg shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:rotate-1" />
+            <div className="absolute -inset-0.5 rounded-lg bg-gold/25 opacity-0 blur-sm transition-opacity duration-300 group-hover:opacity-100 -z-10" />
+          </div>
           <span className="leading-none">
-            <span className="font-display block text-sm font-black uppercase tracking-[0.16em] text-on-ink">
+            <span className="font-display block text-xs sm:text-sm font-black uppercase tracking-[0.16em] text-on-ink transition-colors group-hover:text-gold">
               Winnet
             </span>
-            <span className="font-display block text-[0.5625rem] uppercase tracking-[0.3em] text-gold">
+            <span className="font-display block text-[0.5rem] sm:text-[0.5625rem] uppercase tracking-[0.3em] text-gold">
               Construction Ltd
             </span>
           </span>
@@ -62,44 +70,87 @@ export function Navbar() {
 
         <nav
           aria-label="Main"
-          className="hidden items-center gap-1 rounded-full border border-on-ink/10 bg-ink/40 px-3 py-1 backdrop-blur-md lg:flex"
+          className="hidden items-center gap-1 rounded-full border border-white/15 bg-white/[0.06] p-1 backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] lg:flex"
         >
-          {nav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="font-display rounded-full px-3.5 py-1.5 text-[0.6875rem] uppercase tracking-[0.16em] text-on-ink-muted transition-all hover:bg-on-ink/10 hover:text-gold"
-              activeProps={{ className: "bg-on-ink/15 text-gold font-bold" }}
-              activeOptions={{ exact: item.to === "/" }}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {nav.map((item) => {
+            const isActive = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                className={`relative font-display rounded-full px-3.5 py-1.5 text-[0.6875rem] uppercase tracking-[0.16em] transition-colors duration-200 ${
+                  isActive ? "text-gold font-bold" : "text-white/75 hover:text-white"
+                }`}
+                activeOptions={{ exact: item.to === "/" }}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="floating-nav-pill"
+                    className="absolute inset-0 rounded-full bg-white/15 border border-gold/40 shadow-[0_0_12px_rgba(242,178,60,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] backdrop-blur-sm"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
-          <a
+        <div className="hidden items-center gap-2.5 lg:flex shrink-0">
+          <motion.a
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.97 }}
             href={telHref}
-            className="font-display flex items-center gap-2 rounded-lg border border-on-ink/20 bg-on-ink/5 px-4 py-2.5 text-[0.6875rem] uppercase tracking-[0.14em] text-on-ink backdrop-blur-md transition-all hover:border-gold hover:bg-gold/10 hover:text-gold"
+            className="font-display flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-3.5 py-2 text-[0.6875rem] uppercase tracking-[0.14em] text-on-ink backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)] transition-all hover:border-gold/60 hover:bg-gold/15 hover:text-gold hover:shadow-[0_0_20px_rgba(242,178,60,0.3)]"
           >
-            <Phone className="size-3.5" aria-hidden="true" />
-            Call Us
-          </a>
-          <Button variant="gold" size="cta" onClick={() => openEnquiry()}>
-            Start a Project
-          </Button>
+            <Phone className="size-3.5 text-gold" aria-hidden="true" />
+            <span>Call Us</span>
+          </motion.a>
+          <motion.div whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.97 }}>
+            <Button
+              variant="gold"
+              size="sm"
+              className="rounded-full px-5 py-2 text-[0.6875rem] font-bold uppercase tracking-[0.14em] shadow-lg shadow-gold/25 transition-all hover:shadow-[0_0_24px_rgba(242,178,60,0.5)] cursor-pointer"
+              onClick={() => openEnquiry()}
+            >
+              Start a Project
+            </Button>
+          </motion.div>
         </div>
 
-        <button
+        <motion.button
+          whileTap={{ scale: 0.92 }}
           type="button"
-          className="flex size-11 items-center justify-center rounded-lg border border-on-ink/15 bg-on-ink/5 text-on-ink backdrop-blur-md lg:hidden"
+          className="flex size-9 sm:size-10 items-center justify-center rounded-full border border-white/20 bg-white/[0.08] text-on-ink backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)] transition-all hover:border-gold/50 hover:bg-gold/15 hover:text-gold lg:hidden cursor-pointer"
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           onClick={() => setMenuOpen((v) => !v)}
         >
-          {menuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
-        </button>
+          <AnimatePresence mode="wait" initial={false}>
+            {menuOpen ? (
+              <motion.div
+                key="close"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <X className="size-5" />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="menu"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Menu className="size-5" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.button>
       </div>
 
       <AnimatePresence>
@@ -107,34 +158,36 @@ export function Navbar() {
           <motion.div
             id="mobile-menu"
             key="mobile-menu"
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
+            initial={{ opacity: 0, y: -10, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.96 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-on-ink/15 bg-ink/95 backdrop-blur-2xl shadow-2xl lg:hidden"
+            className="pointer-events-auto mx-auto mt-2 max-w-6xl rounded-3xl border border-white/25 bg-black/60 p-5 backdrop-blur-3xl backdrop-saturate-150 shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),0_20px_50px_rgba(0,0,0,0.7)] ring-1 ring-white/10 lg:hidden"
           >
-            <nav aria-label="Mobile" className="shell flex flex-col py-4">
+            <nav aria-label="Mobile" className="flex flex-col">
               {nav.map((item, index) => (
                 <motion.div
                   key={item.to}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.04 * index, duration: 0.3 }}
+                  transition={{ delay: 0.03 * index, duration: 0.25 }}
                 >
                   <Link
                     to={item.to}
-                    className="font-display block border-b border-on-ink/10 py-4 text-sm uppercase tracking-[0.18em] text-on-ink"
-                    activeProps={{ className: "text-gold" }}
+                    className="font-display flex items-center justify-between border-b border-white/10 py-3.5 text-sm uppercase tracking-[0.18em] text-on-ink transition-colors hover:text-gold"
+                    activeProps={{ className: "text-gold font-bold" }}
                     activeOptions={{ exact: item.to === "/" }}
                   >
-                    {item.label}
+                    <span>{item.label}</span>
+                    <span className="text-gold/50 text-xs">→</span>
                   </Link>
                 </motion.div>
               ))}
-              <div className="mt-5 flex flex-col gap-3 pb-6">
+              <div className="mt-4 flex flex-col gap-2.5 pt-2">
                 <Button
                   variant="gold"
                   size="cta"
+                  className="rounded-full shadow-lg shadow-gold/20"
                   onClick={() => {
                     setMenuOpen(false);
                     openEnquiry();
@@ -142,9 +195,9 @@ export function Navbar() {
                 >
                   Start Your Project
                 </Button>
-                <Button variant="outlineLight" size="cta" asChild>
+                <Button variant="outlineLight" size="cta" className="rounded-full" asChild>
                   <a href={telHref}>
-                    <Phone aria-hidden="true" />
+                    <Phone className="size-4 text-gold" aria-hidden="true" />
                     Call {phoneDisplay}
                   </a>
                 </Button>
@@ -153,6 +206,6 @@ export function Navbar() {
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }
