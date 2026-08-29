@@ -267,19 +267,19 @@ function GalleryPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setLightboxIndex(null)}
-              className="absolute inset-0 bg-ink/95 backdrop-blur-md"
+              className="absolute inset-0 bg-black/75 backdrop-blur-lg"
             />
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="relative flex flex-col max-h-[92vh] max-w-5xl overflow-hidden rounded-2xl border border-on-ink/20 bg-ink shadow-2xl"
+              className="relative flex flex-col max-h-[92vh] max-w-5xl overflow-hidden rounded-3xl glass-card-dark shadow-2xl"
             >
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-on-ink/10 px-5 py-3 text-on-ink">
+              <div className="flex items-center justify-between border-b border-white/15 px-5 py-3.5 text-on-ink bg-black/40 backdrop-blur-md">
                 <div>
-                  <span className="font-display text-[0.6875rem] uppercase tracking-[0.18em] text-gold">
+                  <span className="font-display text-[0.6875rem] uppercase tracking-[0.18em] text-gold font-bold">
                     {currentLightboxItem.category} • Record {(lightboxIndex ?? 0) + 1} of{" "}
                     {filteredItems.length}
                   </span>
@@ -290,7 +290,7 @@ function GalleryPage() {
                 <button
                   type="button"
                   onClick={() => setLightboxIndex(null)}
-                  className="flex size-9 items-center justify-center rounded-xl bg-on-ink/10 text-on-ink hover:bg-gold hover:text-ink transition-colors"
+                  className="flex size-9 items-center justify-center rounded-xl bg-white/10 border border-white/20 text-on-ink hover:bg-gold hover:text-ink transition-colors"
                   aria-label="Close lightbox"
                 >
                   <X className="size-5" />
@@ -298,12 +298,12 @@ function GalleryPage() {
               </div>
 
               {/* Photo View with Next/Prev Arrows */}
-              <div className="relative flex items-center justify-center overflow-hidden bg-black/40 p-4">
+              <div className="relative flex items-center justify-center overflow-hidden bg-black/30 backdrop-blur-sm p-4">
                 {filteredItems.length > 1 ? (
                   <button
                     type="button"
                     onClick={showPrev}
-                    className="absolute left-4 z-10 flex size-10 items-center justify-center rounded-full bg-ink/80 text-on-ink hover:bg-gold hover:text-ink transition-colors"
+                    className="absolute left-4 z-10 flex size-10 items-center justify-center rounded-full bg-black/60 border border-white/20 text-on-ink hover:bg-gold hover:text-ink transition-colors shadow-lg"
                     aria-label="Previous image"
                   >
                     <ChevronLeft className="size-6" />
@@ -313,14 +313,14 @@ function GalleryPage() {
                 <img
                   src={currentLightboxItem.src}
                   alt={currentLightboxItem.alt}
-                  className="max-h-[65vh] w-auto rounded-xl object-contain shadow-lg"
+                  className="max-h-[65vh] w-auto rounded-2xl object-contain shadow-2xl"
                 />
 
                 {filteredItems.length > 1 ? (
                   <button
                     type="button"
                     onClick={showNext}
-                    className="absolute right-4 z-10 flex size-10 items-center justify-center rounded-full bg-ink/80 text-on-ink hover:bg-gold hover:text-ink transition-colors"
+                    className="absolute right-4 z-10 flex size-10 items-center justify-center rounded-full bg-black/60 border border-white/20 text-on-ink hover:bg-gold hover:text-ink transition-colors shadow-lg"
                     aria-label="Next image"
                   >
                     <ChevronRight className="size-6" />
@@ -329,7 +329,7 @@ function GalleryPage() {
               </div>
 
               {/* Caption Footer */}
-              <div className="border-t border-on-ink/10 bg-ink px-5 py-3 text-xs text-on-ink-muted">
+              <div className="border-t border-white/15 bg-black/40 backdrop-blur-md px-5 py-3 text-xs text-on-ink-muted">
                 <p>{currentLightboxItem.description}</p>
               </div>
             </motion.div>

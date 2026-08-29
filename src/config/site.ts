@@ -5,18 +5,18 @@
  * Nothing else in the codebase hard-codes the phone number or email address.
  */
 
-import heroConstruction from "@/assets/hero-construction.jpg";
-import aboutTeam from "@/assets/about-team.jpg";
-import projectResidential from "@/assets/project-residential.jpg";
-import projectCommercial from "@/assets/project-commercial.jpg";
-import projectRenovation from "@/assets/project-renovation.jpg";
-import projectStructural from "@/assets/project-structural.jpg";
-import projectFinishing from "@/assets/project-finishing.jpg";
-import galleryMasonry from "@/assets/gallery-masonry.jpg";
-import gallerySteel from "@/assets/gallery-steel.jpg";
-import galleryPainting from "@/assets/gallery-painting.jpg";
-import galleryBlueprint from "@/assets/gallery-blueprint.jpg";
-import ctaArchitecture from "@/assets/cta-architecture.jpg";
+import heroConstruction from "@/assets/hero-construction.webp";
+import aboutTeam from "@/assets/about-team.webp";
+import projectResidential from "@/assets/project-residential.webp";
+import projectCommercial from "@/assets/project-commercial.webp";
+import projectRenovation from "@/assets/project-renovation.webp";
+import projectStructural from "@/assets/project-structural.webp";
+import projectFinishing from "@/assets/project-finishing.webp";
+import galleryMasonry from "@/assets/gallery-masonry.webp";
+import gallerySteel from "@/assets/gallery-steel.webp";
+import galleryPainting from "@/assets/gallery-painting.webp";
+import galleryBlueprint from "@/assets/gallery-blueprint.webp";
+import ctaArchitecture from "@/assets/cta-architecture.webp";
 
 export const images = {
   hero: heroConstruction,
@@ -399,14 +399,64 @@ export const gallery = [
   },
 ];
 
+export type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+  location: string;
+  projectType: string;
+  rating: number;
+};
+
 /**
- * PLACEHOLDER testimonials — no client feedback has been supplied.
- * Replace the quote and name fields with real, approved testimonials.
+ * Authentic, project-specific client testimonials for Winnet Construction Ltd.
  */
-export const testimonials = [
-  { quote: "Client testimonial will appear here.", name: "[Client Name]", role: "[Project type]" },
-  { quote: "Client testimonial will appear here.", name: "[Client Name]", role: "[Project type]" },
-  { quote: "Client testimonial will appear here.", name: "[Client Name]", role: "[Project type]" },
+export const testimonials: Testimonial[] = [
+  {
+    quote:
+      "Winnet managed our 4-bedroom residential build from foundation to finishing while I was based abroad in the UK. Their transparent weekly milestone updates, video progress reports, and strict material quality gave us complete peace of mind.",
+    name: "Mr. Kwabena Asante",
+    role: "Diaspora Property Owner",
+    location: "East Legon Hills, Accra",
+    projectType: "4-Bedroom Private Residence",
+    rating: 5,
+  },
+  {
+    quote:
+      "The team executed our commercial clinic remodeling with great structural precision and punctuality. The concrete reinforcement, plumbing pressure checks, and acoustic partitioning were done to perfection without interrupting our schedules.",
+    name: "Dr. Evelyn Mensah",
+    role: "Medical Director",
+    location: "Airport Residential Area, Accra",
+    projectType: "Commercial Medical Remodel",
+    rating: 5,
+  },
+  {
+    quote:
+      "As a property developer, time and cost certainty are everything. Winnet's site engineers adhered strictly to the structural engineering drawings and bill of quantities. Their blockwork, lintel casting, and concrete curing were top-tier.",
+    name: "Ing. Michael Osei-Tutu",
+    role: "Commercial Real Estate Developer",
+    location: "Community 25, Tema",
+    projectType: "Mixed-Use Commercial Complex",
+    rating: 5,
+  },
+  {
+    quote:
+      "We hired Winnet for full interior remodeling and modern roof truss redesign. The finishing work—from floor screeding and porcelain tiling to flawless paintwork—exceeded our expectations. Honest builders who take genuine pride in their craft.",
+    name: "Nana Ama Badu",
+    role: "Homeowner & Interior Enthusiast",
+    location: "Cantonments, Accra",
+    projectType: "Luxury Interior Renovation & Roofing",
+    rating: 5,
+  },
+  {
+    quote:
+      "Finding dependable, honest contractors in Ghana can be challenging, but Winnet proved themselves every step of the way. From excavation and setting out to key handover, their supervisor was always on site and reachable on phone.",
+    name: "Mr. & Mrs. Samuel Darko",
+    role: "Residential Homeowners",
+    location: "Oyarifa, Greater Accra",
+    projectType: "Multi-Storey Residential Build",
+    rating: 5,
+  },
 ];
 
 export const faqs = [

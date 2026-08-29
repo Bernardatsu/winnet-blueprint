@@ -17,7 +17,7 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { Toaster } from "@/components/ui/sonner";
 import { Button } from "@/components/ui/button";
-import { company, services } from "@/config/site";
+import { company, services, images } from "@/config/site";
 
 function NotFoundComponent() {
   const { openEnquiry } = useEnquiry();
@@ -142,8 +142,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image:alt", content: `${company.name} — ${company.motto}` },
     ],
     links: [
-      { rel: "preconnect", href: "https://images.unsplash.com" },
-      { rel: "dns-prefetch", href: "https://images.unsplash.com" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap",
+      },
+      {
+        rel: "preload",
+        as: "image",
+        href: images.hero,
+        fetchPriority: "high",
+      },
       {
         rel: "stylesheet",
         href: appCss,

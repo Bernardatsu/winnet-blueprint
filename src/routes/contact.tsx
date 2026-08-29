@@ -24,15 +24,16 @@ function ContactPage() {
       />
 
       {/* Main Content */}
-      <section className="section-pad bg-background">
-        <div className="shell">
+      <section className="section-pad relative overflow-hidden bg-background">
+        <div className="blueprint-grid absolute inset-0 opacity-40" aria-hidden="true" />
+        <div className="shell relative z-10">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.8fr]">
             <div className="space-y-6">
-              <div className="rounded-3xl glass-card p-6 shadow-sm sm:p-8">
+              <div className="rounded-3xl glass-card p-6 shadow-xl sm:p-8">
                 <h2 className="eyebrow text-gold-deep">Direct Contact</h2>
                 <div className="mt-6 space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="flex size-10 items-center justify-center rounded-xl bg-gold text-ink shadow-xs">
+                    <div className="flex size-10 items-center justify-center rounded-xl bg-gold text-ink shadow-sm">
                       <Phone className="size-5" />
                     </div>
                     <div>
@@ -41,7 +42,7 @@ function ContactPage() {
                       </p>
                       <a
                         href={telHref}
-                        className="mt-1 block text-base font-bold text-foreground hover:text-gold-deep"
+                        className="mt-1 block text-base font-bold text-foreground hover:text-gold-deep transition-colors"
                       >
                         {company.phoneLocal}
                       </a>
@@ -49,7 +50,7 @@ function ContactPage() {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="flex size-10 items-center justify-center rounded-xl bg-gold text-ink shadow-xs">
+                    <div className="flex size-10 items-center justify-center rounded-xl bg-gold text-ink shadow-sm">
                       <MessageSquare className="size-5" />
                     </div>
                     <div>
@@ -60,7 +61,7 @@ function ContactPage() {
                         href={whatsappUrl()}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-1 block text-base font-bold text-foreground hover:text-gold-deep"
+                        className="mt-1 block text-base font-bold text-foreground hover:text-gold-deep transition-colors"
                       >
                         +{company.phoneInternational}
                       </a>
@@ -68,7 +69,7 @@ function ContactPage() {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="flex size-10 items-center justify-center rounded-xl bg-gold text-ink shadow-xs">
+                    <div className="flex size-10 items-center justify-center rounded-xl bg-gold text-ink shadow-sm">
                       <Mail className="size-5" />
                     </div>
                     <div>
@@ -77,7 +78,7 @@ function ContactPage() {
                       </p>
                       <a
                         href={mailHref}
-                        className="mt-1 block break-all text-sm font-semibold text-foreground hover:text-gold-deep"
+                        className="mt-1 block break-all text-sm font-semibold text-foreground hover:text-gold-deep transition-colors"
                       >
                         {company.email}
                       </a>
@@ -86,7 +87,7 @@ function ContactPage() {
                 </div>
               </div>
 
-              <div className="rounded-3xl glass-panel p-6 shadow-xs">
+              <div className="rounded-3xl glass-panel p-6 shadow-md">
                 <h3 className="font-display text-xs uppercase tracking-[0.16em] text-foreground font-bold">
                   Location &amp; Service Coverage
                 </h3>
@@ -96,8 +97,8 @@ function ContactPage() {
               </div>
             </div>
 
-            {/* Form */}
-            <div className="rounded-3xl glass-card p-6 sm:p-10 shadow-md">
+            {/* Form Container */}
+            <div className="rounded-3xl glass-card p-6 sm:p-10 shadow-2xl">
               <p className="eyebrow text-gold-deep">Online Consultation Form</p>
               <h2 className="font-display mt-2 text-2xl uppercase tracking-[0.04em] text-foreground sm:text-3xl font-bold">
                 Submit Project Details

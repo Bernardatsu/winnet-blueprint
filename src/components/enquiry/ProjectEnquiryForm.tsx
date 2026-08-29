@@ -46,7 +46,7 @@ const emptyForm: EnquiryData = {
 };
 
 const fieldBase =
-  "rounded-lg border-ink/20 bg-background focus-visible:border-gold focus-visible:ring-gold/40";
+  "rounded-xl border border-black/10 bg-white/40 backdrop-blur-md px-3.5 py-2.5 text-foreground placeholder:text-muted-foreground/70 shadow-[inset_0_1px_2px_rgba(255,255,255,0.7),0_2px_8px_-2px_rgba(0,0,0,0.04)] transition-all duration-200 hover:border-gold/50 hover:bg-white/60 focus-visible:border-gold focus-visible:bg-white/85 focus-visible:ring-2 focus-visible:ring-gold/35";
 
 export function ProjectEnquiryForm({
   presetProjectType,
@@ -113,6 +113,7 @@ export function ProjectEnquiryForm({
             className={fieldBase}
             value={form.fullName}
             autoComplete="name"
+            placeholder="Your full name"
             onChange={(e) => set("fullName", e.target.value)}
             aria-invalid={!!errors.fullName}
           />
@@ -139,6 +140,7 @@ export function ProjectEnquiryForm({
             className={fieldBase}
             value={form.email}
             autoComplete="email"
+            placeholder="name@example.com"
             onChange={(e) => set("email", e.target.value)}
             aria-invalid={!!errors.email}
           />
@@ -147,16 +149,18 @@ export function ProjectEnquiryForm({
         <Field id="projectType" label="Project Type" required error={errors.projectType}>
           <select
             id="projectType"
-            className={`flex h-10 w-full rounded-lg border border-ink/20 bg-background px-3 py-1 text-base shadow-xs transition-colors focus-visible:border-gold focus-visible:outline-none md:text-sm ${
-              form.projectType ? "" : "text-muted-foreground"
+            className={`flex h-10 w-full rounded-xl border border-black/10 bg-white/40 backdrop-blur-md px-3.5 py-2 text-base shadow-[inset_0_1px_2px_rgba(255,255,255,0.7),0_2px_8px_-2px_rgba(0,0,0,0.04)] transition-all duration-200 hover:border-gold/50 hover:bg-white/60 focus-visible:border-gold focus-visible:bg-white/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/35 md:text-sm ${
+              form.projectType ? "text-foreground font-medium" : "text-muted-foreground"
             }`}
             value={form.projectType}
             onChange={(e) => set("projectType", e.target.value)}
             aria-invalid={!!errors.projectType}
           >
-            <option value="">Select project type</option>
+            <option value="" className="bg-background text-foreground">
+              Select project type
+            </option>
             {projectTypes.map((type) => (
-              <option key={type} value={type}>
+              <option key={type} value={type} className="bg-background text-foreground">
                 {type}
               </option>
             ))}
@@ -168,7 +172,7 @@ export function ProjectEnquiryForm({
             id="location"
             className={fieldBase}
             value={form.location}
-            placeholder="Town / city / area"
+            placeholder="Town / city / area in Ghana"
             onChange={(e) => set("location", e.target.value)}
             aria-invalid={!!errors.location}
           />
@@ -194,10 +198,10 @@ export function ProjectEnquiryForm({
                   role="radio"
                   aria-checked={active}
                   onClick={() => set("contactMethod", method)}
-                  className={`font-display cursor-pointer rounded-lg border px-3 py-2 text-[0.6875rem] uppercase tracking-[0.14em] transition-colors ${
+                  className={`font-display cursor-pointer rounded-xl border px-3.5 py-2 text-[0.6875rem] uppercase tracking-[0.14em] transition-all duration-200 ${
                     active
-                      ? "border-gold bg-gold text-ink font-bold"
-                      : "border-ink/20 text-muted-foreground hover:border-ink/50 hover:text-ink"
+                      ? "border-gold bg-gold text-ink font-bold shadow-md shadow-gold/25 scale-[1.02]"
+                      : "border-black/10 bg-white/35 backdrop-blur-sm text-foreground/80 hover:border-gold/50 hover:bg-white/65 hover:text-foreground shadow-xs"
                   }`}
                 >
                   {method}
@@ -224,15 +228,17 @@ export function ProjectEnquiryForm({
         <Field id="budget" label="Estimated Budget Range" error={errors.budget}>
           <select
             id="budget"
-            className={`flex h-10 w-full rounded-lg border border-ink/20 bg-background px-3 py-1 text-base shadow-xs transition-colors focus-visible:border-gold focus-visible:outline-none md:text-sm ${
-              form.budget ? "" : "text-muted-foreground"
+            className={`flex h-10 w-full rounded-xl border border-black/10 bg-white/40 backdrop-blur-md px-3.5 py-2 text-base shadow-[inset_0_1px_2px_rgba(255,255,255,0.7),0_2px_8px_-2px_rgba(0,0,0,0.04)] transition-all duration-200 hover:border-gold/50 hover:bg-white/60 focus-visible:border-gold focus-visible:bg-white/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/35 md:text-sm ${
+              form.budget ? "text-foreground font-medium" : "text-muted-foreground"
             }`}
             value={form.budget}
             onChange={(e) => set("budget", e.target.value)}
           >
-            <option value="">Select a range (optional)</option>
+            <option value="" className="bg-background text-foreground">
+              Select a range (optional)
+            </option>
             {budgetRanges.map((range) => (
-              <option key={range} value={range}>
+              <option key={range} value={range} className="bg-background text-foreground">
                 {range}
               </option>
             ))}
@@ -243,8 +249,8 @@ export function ProjectEnquiryForm({
       <Field id="description" label="Project Description" required error={errors.description}>
         <Textarea
           id="description"
-          rows={5}
-          className={fieldBase}
+          rows={4}
+          className={`${fieldBase} resize-y min-h-[110px]`}
           value={form.description}
           maxLength={1500}
           placeholder="What do you want to build? Include the site, size, stage and anything already drawn or approved."
@@ -253,8 +259,13 @@ export function ProjectEnquiryForm({
         />
       </Field>
 
-      <div className="flex flex-col gap-3 border-t border-border pt-5 sm:flex-row">
-        <Button type="submit" variant="gold" size="cta" className="w-full sm:w-auto sm:flex-1">
+      <div className="flex flex-col gap-3 border-t border-black/10 pt-5 sm:flex-row">
+        <Button
+          type="submit"
+          variant="gold"
+          size="cta"
+          className="w-full sm:w-auto sm:flex-1 shadow-lg shadow-gold/25 hover:shadow-gold/40"
+        >
           <MessageCircle aria-hidden="true" />
           Send Project Enquiry
         </Button>
@@ -262,7 +273,7 @@ export function ProjectEnquiryForm({
           type="button"
           variant="outlineInk"
           size="cta"
-          className="w-full sm:w-auto"
+          className="w-full sm:w-auto bg-white/30 backdrop-blur-sm hover:bg-white/60 border-black/15"
           onClick={() => send("email")}
         >
           <Mail aria-hidden="true" />

@@ -133,28 +133,30 @@ function ProjectsPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveProject(null)}
-              className="absolute inset-0 bg-ink/80 backdrop-blur-md"
+              className="absolute inset-0 bg-black/60 backdrop-blur-md"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-border/80 bg-card/95 backdrop-blur-2xl p-6 shadow-2xl sm:p-8"
+              className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl glass-card p-6 shadow-2xl sm:p-8"
             >
               <button
                 type="button"
                 onClick={() => setActiveProject(null)}
-                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:text-foreground"
+                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-xl bg-white/40 border border-black/10 text-muted-foreground hover:text-foreground hover:bg-white/70 transition-colors"
                 aria-label="Close project modal"
               >
                 <X className="size-5" />
               </button>
 
               <div className="flex items-center gap-2">
-                <span className="font-display rounded-md bg-gold px-2.5 py-1 text-[0.625rem] uppercase tracking-[0.16em] text-ink font-bold">
+                <span className="font-display rounded-md bg-gold px-2.5 py-1 text-[0.625rem] uppercase tracking-[0.16em] text-ink font-bold shadow-xs">
                   {activeProject.category}
                 </span>
-                <span className="text-xs text-muted-foreground">{activeProject.location}</span>
+                <span className="text-xs text-muted-foreground font-medium">
+                  {activeProject.location}
+                </span>
               </div>
 
               <h3 className="h-display mt-4 text-2xl text-foreground sm:text-3xl">
@@ -162,7 +164,7 @@ function ProjectsPage() {
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">{activeProject.summary}</p>
 
-              <div className="mt-6 aspect-[16/9] overflow-hidden rounded-2xl bg-ink">
+              <div className="mt-6 aspect-[16/9] overflow-hidden rounded-2xl bg-ink shadow-md">
                 <img
                   src={activeProject.image}
                   alt={activeProject.title}
@@ -181,7 +183,7 @@ function ProjectsPage() {
                     {activeProject.scope.map((s) => (
                       <span
                         key={s}
-                        className="rounded-lg bg-secondary px-3 py-1 text-xs font-semibold text-foreground border border-border/60"
+                        className="rounded-lg bg-white/40 backdrop-blur-xs px-3 py-1 text-xs font-semibold text-foreground border border-black/10"
                       >
                         {s}
                       </span>
@@ -190,13 +192,13 @@ function ProjectsPage() {
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-xl glass-panel p-4">
+                  <div className="rounded-2xl glass-panel p-4">
                     <h5 className="font-display text-xs uppercase tracking-[0.14em] text-foreground font-bold">
                       Overview &amp; Brief
                     </h5>
                     <p className="mt-1 text-xs text-muted-foreground">{activeProject.brief}</p>
                   </div>
-                  <div className="rounded-xl glass-panel p-4">
+                  <div className="rounded-2xl glass-panel p-4">
                     <h5 className="font-display text-xs uppercase tracking-[0.14em] text-foreground font-bold">
                       Execution &amp; Delivery
                     </h5>
@@ -205,20 +207,31 @@ function ProjectsPage() {
                 </div>
               </div>
 
-              <div className="mt-8 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:justify-between sm:items-center">
-                <Button variant="outlineInk" size="sm" asChild>
+              <div className="mt-8 flex flex-col gap-3 border-t border-black/10 pt-6 sm:flex-row sm:justify-between sm:items-center">
+                <Button
+                  variant="outlineInk"
+                  size="sm"
+                  asChild
+                  className="bg-white/30 backdrop-blur-xs border-black/10"
+                >
                   <Link to="/projects/$slug" params={{ slug: activeProject.slug }}>
                     Open Full Case Study Page
                     <ArrowRight className="size-3.5" />
                   </Link>
                 </Button>
                 <div className="flex gap-3">
-                  <Button variant="outlineInk" size="sm" onClick={() => setActiveProject(null)}>
+                  <Button
+                    variant="outlineInk"
+                    size="sm"
+                    onClick={() => setActiveProject(null)}
+                    className="bg-white/30 backdrop-blur-xs border-black/10"
+                  >
                     Close
                   </Button>
                   <Button
                     variant="gold"
                     size="sm"
+                    className="shadow-md shadow-gold/25"
                     onClick={() => {
                       const cat = activeProject.category;
                       setActiveProject(null);

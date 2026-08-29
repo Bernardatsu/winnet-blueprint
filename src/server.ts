@@ -47,9 +47,28 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const url = new URL(request.url);
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      const normalized = await normalizeCatastrophicSsrResponse(response);
+
+      // Enhance static asset cache-control headers for maximum loading speed
+      const isStaticAsset =
+        url.pathname.startsWith("/assets/") ||
+        url.pathname.startsWith("/_build/") ||
+        /\.(webp|jpg|jpeg|png|svg|ico|woff2|css|js)$/i.test(url.pathname);
+
+      if (isStaticAsset && normalized.status === 200 && !normalized.headers.has("cache-control")) {
+        const headers = new Headers(normalized.headers);
+        headers.set("cache-control", "public, max-age=31536000, immutable");
+        return new Response(normalized.body, {
+          status: normalized.status,
+          statusText: normalized.statusText,
+          headers,
+        });
+      }
+
+      return normalized;
     } catch (error) {
       console.error(error);
       return new Response(renderErrorPage(), {

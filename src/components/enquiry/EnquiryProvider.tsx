@@ -39,8 +39,8 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
     <EnquiryContext.Provider value={value}>
       {children}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[92vh] gap-0 overflow-y-auto rounded-3xl border border-border/80 bg-card/95 backdrop-blur-2xl p-0 shadow-2xl sm:max-w-2xl">
-          <DialogHeader className="space-y-2 border-b border-border/80 bg-ink/95 backdrop-blur-md px-5 py-6 text-left sm:px-8">
+        <DialogContent className="max-h-[92vh] gap-0 overflow-y-auto rounded-3xl border border-white/60 bg-white/75 backdrop-blur-3xl backdrop-saturate-150 p-0 shadow-[inset_0_1.5px_1px_rgba(255,255,255,0.9),0_25px_60px_-15px_rgba(0,0,0,0.35)] ring-1 ring-black/5 sm:max-w-2xl">
+          <DialogHeader className="relative space-y-2 border-b border-white/20 bg-black/45 backdrop-blur-2xl px-5 py-6 text-left sm:px-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]">
             <p className="eyebrow text-gold">Project Enquiry</p>
             <DialogTitle className="h-display text-2xl text-on-ink sm:text-3xl">
               Start Your Project
@@ -50,7 +50,7 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
               WhatsApp or email — nothing is stored on this website.
             </DialogDescription>
           </DialogHeader>
-          <div className="px-5 py-6 sm:px-8 sm:py-8">
+          <div className="relative bg-white/40 backdrop-blur-xl px-5 py-6 sm:px-8 sm:py-8">
             <ProjectEnquiryForm presetProjectType={preset} onSent={closeEnquiry} />
           </div>
         </DialogContent>
