@@ -3,6 +3,8 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 
+import { handleChatRequest, type ChatMessage } from "./server/gemini";
+
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
 };
@@ -48,6 +50,35 @@ export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const url = new URL(request.url);
+
+      // Handle Gemini AI Chat API
+      if (url.pathname === "/api/chat" && request.method === "POST") {
+        try {
+          const body = (await request.json()) as { messages?: ChatMessage[] };
+          const messages = body.messages || [];
+          const reply = await handleChatRequest(messages);
+          return new Response(JSON.stringify({ reply }), {
+            status: 200,
+            headers: {
+              "content-type": "application/json; charset=utf-8",
+              "cache-control": "no-store",
+            },
+          });
+        } catch (err) {
+          console.error("Chat API error:", err);
+          return new Response(
+            JSON.stringify({
+              reply:
+                "I apologize, but I encountered a temporary connection issue. Please feel free to book a consultation directly using the button above or message us on WhatsApp!",
+            }),
+            {
+              status: 200,
+              headers: { "content-type": "application/json; charset=utf-8" },
+            },
+          );
+        }
+      }
+
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       const normalized = await normalizeCatastrophicSsrResponse(response);

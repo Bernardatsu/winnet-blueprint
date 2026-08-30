@@ -21,25 +21,27 @@ function line(label: string, value?: string) {
 /** Human-readable enquiry summary shared by the WhatsApp and email flows. */
 export function buildEnquiryMessage(data: EnquiryData) {
   return [
-    `Hello ${company.name},`,
+    `🏛️ *${company.name.toUpperCase()} — PROJECT ENQUIRY*`,
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
+    `👤 *CLIENT DETAILS*`,
+    `• *Full Name:* ${data.fullName || dash}`,
+    `• *Phone/WhatsApp:* ${data.phone || dash}`,
+    `• *Email:* ${data.email || dash}`,
+    `• *Preferred Contact:* ${data.contactMethod || dash}`,
     "",
-    "I would like to discuss a construction project.",
+    `📍 *PROJECT SPECIFICATIONS*`,
+    `• *Project Scope:* ${data.projectType || dash}`,
+    `• *Site Location:* ${data.location || dash}`,
+    `• *Target Budget:* ${data.budget || "To be determined via BOQ"}`,
+    `• *Preferred Date:* ${data.consultationDate || "Earliest available slot"}`,
     "",
-    line("Name", data.fullName),
-    line("Phone", data.phone),
-    line("Email", data.email),
-    line("Project Type", data.projectType),
-    line("Location", data.location),
-    line("Preferred Contact Method", data.contactMethod),
-    line("Preferred Consultation Date", data.consultationDate),
-    line("Estimated Budget", data.budget),
+    `📝 *PROJECT DESCRIPTION & NOTES*`,
+    data.description && data.description.trim()
+      ? data.description.trim()
+      : "No additional description provided.",
     "",
-    "Project Details:",
-    data.description.trim(),
-    "",
-    "Please let me know how we can proceed.",
-    "",
-    "Thank you.",
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
+    `_Please reply to schedule initial site review or video session._`,
   ].join("\n");
 }
 

@@ -14,7 +14,7 @@ import appCss from "../styles.css?url";
 import { EnquiryProvider, useEnquiry } from "@/components/enquiry/EnquiryProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { WinnetChatbot } from "@/components/chat/WinnetChatbot";
 import { Toaster } from "@/components/ui/sonner";
 import { Button } from "@/components/ui/button";
 import { company, services, images } from "@/config/site";
@@ -208,7 +208,7 @@ function RootComponent() {
             <Outlet />
           </main>
           <Footer />
-          <WhatsAppButton />
+          <WinnetChatbot />
           <Toaster />
         </div>
       </EnquiryProvider>
