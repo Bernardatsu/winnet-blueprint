@@ -127,10 +127,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE_URL}/` },
       { property: "og:locale", content: "en_GH" },
-      { property: "og:image", content: `${SITE_URL}/icon-512x512.png` },
+      { property: "og:image", content: `${SITE_URL}/og-image.jpg` },
+      { property: "og:image:secure_url", content: `${SITE_URL}/og-image.jpg` },
+      { property: "og:image:type", content: "image/jpeg" },
       { property: "og:image:alt", content: `${company.name} — ${company.motto}` },
-      { property: "og:image:width", content: "512" },
-      { property: "og:image:height", content: "512" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: `${company.name} | ${company.motto}` },
       {
@@ -138,7 +140,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Premier building and civil engineering contractor in Ghana. Residential, commercial, and structural works.",
       },
-      { name: "twitter:image", content: `${SITE_URL}/winnet-logo-horizontal.svg` },
+      { name: "twitter:image", content: `${SITE_URL}/og-image.jpg` },
       { name: "twitter:image:alt", content: `${company.name} — ${company.motto}` },
     ],
     links: [

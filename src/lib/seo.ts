@@ -33,8 +33,8 @@ export type TanStackLinkTag = {
 };
 
 export const SITE_URL = "https://winnet-constructions.vercel.app";
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/winnet-logo-horizontal.svg`;
-export const DEFAULT_LOGO_ICON = `${SITE_URL}/winnet-icon-square-512.svg`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+export const DEFAULT_LOGO_ICON = `${SITE_URL}/icon-512x512.png`;
 
 export const DEFAULT_KEYWORDS = [
   "Winnet Construction Ltd",
@@ -76,12 +76,25 @@ export function buildSeoMeta(options: SeoOptions): {
   links?: TanStackLinkTag[];
 } {
   const fullTitle = formatTitle(options.title);
-  const ogImage = options.image?.startsWith("http")
-    ? options.image
-    : options.image
-      ? `${SITE_URL}${options.image.startsWith("/") ? "" : "/"}${options.image}`
-      : DEFAULT_OG_IMAGE;
+
+  // Resolve an absolute, social-crawler friendly JPG/PNG image URL
+  let ogImage = DEFAULT_OG_IMAGE;
+  if (options.image) {
+    if (options.image.startsWith("http://") || options.image.startsWith("https://")) {
+      ogImage = options.image;
+    } else if (options.image.startsWith("/")) {
+      ogImage = `${SITE_URL}${options.image}`;
+    } else if (
+      options.image.startsWith("og-") ||
+      options.image.endsWith(".jpg") ||
+      options.image.endsWith(".png")
+    ) {
+      ogImage = `${SITE_URL}/${options.image}`;
+    }
+  }
+
   const imageAlt = options.imageAlt || `${company.name} — ${company.motto}`;
+  const imageType = ogImage.endsWith(".png") ? "image/png" : "image/jpeg";
 
   const keywordsString = Array.isArray(options.keywords)
     ? options.keywords.join(", ")
@@ -109,7 +122,7 @@ export function buildSeoMeta(options: SeoOptions): {
         : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     },
 
-    // Open Graph
+    // Open Graph (WhatsApp, iMessage, Facebook, Telegram, LinkedIn, Slack, Discord)
     { property: "og:site_name", content: company.name },
     { property: "og:title", content: fullTitle },
     { property: "og:description", content: options.description },
@@ -117,11 +130,13 @@ export function buildSeoMeta(options: SeoOptions): {
     { property: "og:url", content: canonicalUrl },
     { property: "og:locale", content: "en_GH" },
     { property: "og:image", content: ogImage },
-    { property: "og:image:alt", content: imageAlt },
+    { property: "og:image:secure_url", content: ogImage },
+    { property: "og:image:type", content: imageType },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
+    { property: "og:image:alt", content: imageAlt },
 
-    // Twitter Card
+    // Twitter Card (Large rich card in chat feeds)
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: fullTitle },
     { name: "twitter:description", content: options.description },
@@ -172,7 +187,7 @@ export const homeSeoConfig: SeoOptions = {
     "construction quotation Ghana",
   ],
   canonical: "/",
-  image: images.hero,
+  image: "/og-home.jpg",
   imageAlt: "Winnet Construction Ltd — active building project and engineering site in Ghana",
   type: "website",
 };
@@ -191,7 +206,7 @@ export const projectsSeoConfig: SeoOptions = {
     "Winnet Construction projects",
   ],
   canonical: "/projects",
-  image: images.residential,
+  image: "/og-projects.jpg",
   imageAlt: "Winnet Construction Ltd modern residential and commercial portfolio",
   type: "website",
 };
@@ -209,7 +224,7 @@ export function getProjectDetailSeo(project: Project): SeoOptions {
       "building contractor Ghana",
     ],
     canonical: `/projects/${project.slug}`,
-    image: project.image,
+    image: "/og-projects.jpg",
     imageAlt: `${project.title} — ${project.category} construction project in ${project.location}`,
     type: "article",
     section: project.category,
@@ -231,7 +246,7 @@ export const contactSeoConfig: SeoOptions = {
     "Winnet Construction address Accra",
   ],
   canonical: "/contact",
-  image: images.cta,
+  image: "/og-contact.jpg",
   imageAlt: "Contact Winnet Construction Ltd for building consultation and estimation",
   type: "business.business",
 };
@@ -248,7 +263,7 @@ export const aboutSeoConfig: SeoOptions = {
     "structural engineers Accra",
   ],
   canonical: "/about",
-  image: images.about,
+  image: "/og-about.jpg",
   imageAlt: "Winnet Construction Ltd engineering and project management team",
   type: "website",
 };
@@ -266,7 +281,7 @@ export const servicesSeoConfig: SeoOptions = {
     "architectural finishing Ghana",
   ],
   canonical: "/services",
-  image: images.structural,
+  image: "/og-services.jpg",
   imageAlt: "Comprehensive construction and engineering services by Winnet Construction Ltd",
   type: "website",
 };
@@ -283,7 +298,7 @@ export const processSeoConfig: SeoOptions = {
     "construction supervision Ghana",
   ],
   canonical: "/process",
-  image: images.blueprint,
+  image: "/og-services.jpg",
   imageAlt: "Winnet Construction step-by-step building roadmap and architectural process",
   type: "website",
 };
@@ -300,7 +315,7 @@ export const whyWinnetSeoConfig: SeoOptions = {
     "structural durability",
   ],
   canonical: "/why-winnet",
-  image: images.hero,
+  image: "/og-home.jpg",
   imageAlt: "Why choose Winnet Construction Ltd for your building project",
   type: "website",
 };
@@ -317,7 +332,7 @@ export const gallerySeoConfig: SeoOptions = {
     "finishing work Ghana",
   ],
   canonical: "/gallery",
-  image: images.masonry,
+  image: "/og-projects.jpg",
   imageAlt: "On-site masonry and structural construction photography by Winnet Construction Ltd",
   type: "website",
 };
