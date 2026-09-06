@@ -51,6 +51,33 @@ export default {
     try {
       const url = new URL(request.url);
 
+      // Handle Google Search Console verification endpoints directly
+      if (
+        url.pathname === "/google270b1bc48ab03f45.html" ||
+        url.pathname === "/google270b1bc48ab03f45"
+      ) {
+        return new Response("google-site-verification: google270b1bc48ab03f45.html\n", {
+          status: 200,
+          headers: {
+            "content-type": "text/html; charset=utf-8",
+            "cache-control": "public, max-age=3600",
+          },
+        });
+      }
+
+      if (
+        url.pathname === "/google4cfcc257bdd58937.html" ||
+        url.pathname === "/google4cfcc257bdd58937"
+      ) {
+        return new Response("google-site-verification: google4cfcc257bdd58937.html\n", {
+          status: 200,
+          headers: {
+            "content-type": "text/html; charset=utf-8",
+            "cache-control": "public, max-age=3600",
+          },
+        });
+      }
+
       // Handle Gemini AI Chat API
       if (url.pathname === "/api/chat" && request.method === "POST") {
         try {

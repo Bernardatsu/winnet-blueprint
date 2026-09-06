@@ -107,6 +107,12 @@ export function buildSeoMeta(options: SeoOptions): {
     : SITE_URL;
 
   const meta: TanStackMetaTag[] = [
+    // Google Search Console Verification
+    { name: "google-site-verification", content: "google270b1bc48ab03f45" },
+    { name: "google-site-verification", content: "google270b1bc48ab03f45.html" },
+    { name: "google-site-verification", content: "270b1bc48ab03f45" },
+    { name: "google-site-verification", content: "google4cfcc257bdd58937" },
+
     // Standard Meta
     { title: fullTitle },
     { name: "description", content: options.description },
