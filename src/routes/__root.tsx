@@ -96,6 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "google-site-verification", content: "google270b1bc48ab03f45" },
       { name: "google-site-verification", content: "google4cfcc257bdd58937" },
       { title: `${company.name} | ${company.motto} - Building Contractors in Ghana` },
       {

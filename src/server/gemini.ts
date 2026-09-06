@@ -58,39 +58,58 @@ export type ChatMessage = {
   content: string;
 };
 
+const CANDIDATE_MODELS = ["gemini-3.7-flash", "gemini-3.1-flash-lite"];
+
 export async function handleChatRequest(messages: ChatMessage[]): Promise<string> {
   const ai = getGenAI();
+  const lastUserMsg = messages[messages.length - 1]?.content.toLowerCase() || "";
 
-  // If no API key configured or fallback is needed, provide an intelligent rule-based response
+  // If no API key configured, provide an intelligent rule-based response
   if (!ai) {
-    const lastUserMsg = messages[messages.length - 1]?.content.toLowerCase() || "";
     return generateFallbackResponse(lastUserMsg);
   }
 
-  try {
-    const contents = messages.map((m) => ({
-      role: m.role === "assistant" ? ("model" as const) : ("user" as const),
-      parts: [{ text: m.content }],
-    }));
+  const contents = messages.map((m) => ({
+    role: m.role === "assistant" ? ("model" as const) : ("user" as const),
+    parts: [{ text: m.content }],
+  }));
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3.7-flash",
-      contents,
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-        temperature: 0.7,
-      },
-    });
+  // Attempt generation with primary model, then secondary fallback model on 503/429/500 spikes
+  for (const modelName of CANDIDATE_MODELS) {
+    try {
+      const response = await ai.models.generateContent({
+        model: modelName,
+        contents,
+        config: {
+          systemInstruction: SYSTEM_INSTRUCTION,
+          temperature: 0.7,
+        },
+      });
 
-    return (
-      response.text ||
-      "Akwaaba! I am Kwesi from Winnet Construction Ltd. Our senior engineering team is ready to assist you. Would you like to schedule a site inspection or speak directly with us on WhatsApp?"
-    );
-  } catch (error) {
-    console.error("Gemini API error in chat:", error);
-    const lastUserMsg = messages[messages.length - 1]?.content.toLowerCase() || "";
-    return generateFallbackResponse(lastUserMsg);
+      if (response.text && response.text.trim().length > 0) {
+        return response.text.trim();
+      }
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : String(error);
+      const isTemporaryDemandError =
+        errMsg.includes("503") ||
+        errMsg.includes("UNAVAILABLE") ||
+        errMsg.includes("high demand") ||
+        errMsg.includes("429") ||
+        errMsg.includes("RESOURCE_EXHAUSTED");
+
+      if (isTemporaryDemandError) {
+        console.warn(
+          `Model ${modelName} temporarily experiencing high demand, attempting fallback...`,
+        );
+      } else {
+        console.warn(`Gemini generation warning with ${modelName}:`, errMsg);
+      }
+    }
   }
+
+  // Graceful domain-specific fallback if upstream models are under temporary demand
+  return generateFallbackResponse(lastUserMsg);
 }
 
 function generateFallbackResponse(query: string): string {
@@ -148,7 +167,46 @@ function generateFallbackResponse(query: string): string {
     );
   }
 
-  if (query.includes("services") || query.includes("what do you do") || query.includes("build")) {
+  if (
+    query.includes("permit") ||
+    query.includes("building permit") ||
+    query.includes("title") ||
+    query.includes("land commission") ||
+    query.includes("epa") ||
+    query.includes("assembly")
+  ) {
+    return (
+      "Regarding building permits and statutory compliance in Ghana:\n\n" +
+      "• **Municipal / District Assembly Permit**: Mandatory prior to foundation excavation. We assist with architectural, structural, and MEP engineering endorsement.\n" +
+      "• **Soil & Structural Engineering Sign-off**: Our certified structural engineers provide stamped calculations for multistory slabs and columns.\n" +
+      "• **Land Title Verification**: We help confirm site registration with the Lands Commission before structural capital is deployed.\n\n" +
+      "Would you like us to review your existing architectural blueprints for permit readiness?"
+    );
+  }
+
+  if (
+    query.includes("boq") ||
+    query.includes("bill of quantities") ||
+    query.includes("takeoff") ||
+    query.includes("materials") ||
+    query.includes("breakdown")
+  ) {
+    return (
+      "A complete **Bill of Quantities (BOQ)** is the foundation of a risk-free construction project in Ghana:\n\n" +
+      "• **Substructure to Superstructure**: Detailed itemization of cement, high-tensile iron rods (16mm, 12mm), quarry granite, sand, and formwork.\n" +
+      "• **Stage-by-Stage Milestone Costing**: Foundation, Decking/First Floor Casting, Roof Framing, POP Ceilings, and Turnkey Porcelain Finishing.\n" +
+      "• **Transparent Fixed Rates**: Zero surprise variations or unapproved cost inflation.\n\n" +
+      "You can book an in-office or video BOQ review session with our chief quantity surveyor anytime!"
+    );
+  }
+
+  if (
+    query.includes("services") ||
+    query.includes("what do you do") ||
+    query.includes("build") ||
+    query.includes("company") ||
+    query.includes("winnet")
+  ) {
     return (
       "I am **Kwesi**, your Winnet guide. We deliver complete building and civil engineering services across Ghana:\n\n" +
       "• **Residential Construction**: Custom luxury villas, duplexes, multi-storey family homes.\n" +
