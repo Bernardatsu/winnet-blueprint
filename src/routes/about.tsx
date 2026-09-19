@@ -20,7 +20,7 @@ function AboutPage() {
       {/* Page Header with background image */}
       <PageHeader
         eyebrow="About Our Company"
-        title="Building With Integrity & Precision !!"
+        title="Building With Integrity & Precision"
         subtitle={`${company.name} is dedicated to delivering durable, carefully executed residential, commercial, and civil construction projects across Ghana.`}
         image={images.about}
         imageAlt="Winnet Construction team and engineers reviewing structural blueprints on site"
