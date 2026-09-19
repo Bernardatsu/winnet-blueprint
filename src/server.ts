@@ -51,25 +51,12 @@ export default {
     try {
       const url = new URL(request.url);
 
-      // Handle Google Search Console verification endpoints directly
+      // Handle Google Search Console verification endpoint directly
       if (
-        url.pathname === "/google270b1bc48ab03f45.html" ||
-        url.pathname === "/google270b1bc48ab03f45"
+        url.pathname === "/google2de381af7c64b3ae.html" ||
+        url.pathname === "/google2de381af7c64b3ae"
       ) {
-        return new Response("google-site-verification: google270b1bc48ab03f45.html\n", {
-          status: 200,
-          headers: {
-            "content-type": "text/html; charset=utf-8",
-            "cache-control": "public, max-age=3600",
-          },
-        });
-      }
-
-      if (
-        url.pathname === "/google4cfcc257bdd58937.html" ||
-        url.pathname === "/google4cfcc257bdd58937"
-      ) {
-        return new Response("google-site-verification: google4cfcc257bdd58937.html\n", {
+        return new Response("google-site-verification: google2de381af7c64b3ae.html\n", {
           status: 200,
           headers: {
             "content-type": "text/html; charset=utf-8",
