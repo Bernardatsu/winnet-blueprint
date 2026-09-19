@@ -4,6 +4,7 @@ import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 
 import { handleChatRequest, type ChatMessage } from "./server/gemini";
+import { getSitemapXml } from "./lib/sitemap";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -61,6 +62,29 @@ export default {
           headers: {
             "content-type": "text/html; charset=utf-8",
             "cache-control": "public, max-age=3600",
+          },
+        });
+      }
+
+      // Handle XML Sitemap directly
+      if (url.pathname === "/sitemap.xml" || url.pathname === "/sitemap") {
+        return new Response(getSitemapXml(), {
+          status: 200,
+          headers: {
+            "content-type": "application/xml; charset=utf-8",
+            "cache-control": "public, max-age=86400, s-maxage=86400",
+          },
+        });
+      }
+
+      // Handle robots.txt directly
+      if (url.pathname === "/robots.txt") {
+        const robotsTxt = `User-agent: *\nAllow: /\n\n# Sitemap Index\nSitemap: https://winnet-constructions.vercel.app/sitemap.xml\n`;
+        return new Response(robotsTxt, {
+          status: 200,
+          headers: {
+            "content-type": "text/plain; charset=utf-8",
+            "cache-control": "public, max-age=86400",
           },
         });
       }
