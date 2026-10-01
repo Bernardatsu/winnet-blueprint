@@ -98,6 +98,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "google-site-verification", content: "Q-FhfSX0RwqoIq7hf77tFKXiJvHVyK0wDMJ4MjCEb7Y" },
       { name: "google-site-verification", content: "google2de381af7c64b3ae" },
+      { name: "google-site-verification", content: "google270b1bc48ab03f45" },
+      { name: "google-site-verification", content: "google270b1bc48ab03f45.html" },
+      { name: "google-site-verification", content: "270b1bc48ab03f45" },
       { title: `${company.name} | ${company.motto} - Building Contractors in Ghana` },
       {
         name: "description",
@@ -195,6 +198,9 @@ function RootShell({ children }: { children: ReactNode }) {
         <meta name="google-site-verification" content="google2de381af7c64b3ae" />
         <meta name="google-site-verification" content="google2de381af7c64b3ae.html" />
         <meta name="google-site-verification" content="2de381af7c64b3ae" />
+        <meta name="google-site-verification" content="google270b1bc48ab03f45" />
+        <meta name="google-site-verification" content="google270b1bc48ab03f45.html" />
+        <meta name="google-site-verification" content="270b1bc48ab03f45" />
         <HeadContent />
       </head>
       <body>

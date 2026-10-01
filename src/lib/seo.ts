@@ -110,6 +110,9 @@ export function buildSeoMeta(options: SeoOptions): {
     // Google Search Console Verification
     { name: "google-site-verification", content: "Q-FhfSX0RwqoIq7hf77tFKXiJvHVyK0wDMJ4MjCEb7Y" },
     { name: "google-site-verification", content: "google2de381af7c64b3ae" },
+    { name: "google-site-verification", content: "google270b1bc48ab03f45" },
+    { name: "google-site-verification", content: "google270b1bc48ab03f45.html" },
+    { name: "google-site-verification", content: "270b1bc48ab03f45" },
 
     // Standard Meta
     { title: fullTitle },

@@ -52,7 +52,20 @@ export default {
     try {
       const url = new URL(request.url);
 
-      // Handle Google Search Console verification endpoint directly
+      // Handle Google Search Console verification endpoints directly
+      if (
+        url.pathname === "/google270b1bc48ab03f45.html" ||
+        url.pathname === "/google270b1bc48ab03f45"
+      ) {
+        return new Response("google-site-verification: google270b1bc48ab03f45.html\n", {
+          status: 200,
+          headers: {
+            "content-type": "text/html; charset=utf-8",
+            "cache-control": "public, max-age=3600",
+          },
+        });
+      }
+
       if (
         url.pathname === "/google2de381af7c64b3ae.html" ||
         url.pathname === "/google2de381af7c64b3ae"
