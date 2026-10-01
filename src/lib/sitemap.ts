@@ -45,7 +45,7 @@ export const SITEMAP_PAGES = [
     images: [
       {
         loc: `${SITE_URL}/og-projects.jpg`,
-        title: "Winnet Construction Ltd Portfolio & Building Projects",
+        title: "Winnet Construction Ltd Portfolio &amp; Building Projects",
       },
     ],
   },
@@ -118,6 +118,16 @@ export const SITEMAP_PAGES = [
   },
 ];
 
+export function escapeXml(unsafe: string): string {
+  if (typeof unsafe !== "string") return "";
+  return unsafe
+    .replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 export function getSitemapXml(dateStr = new Date().toISOString().split("T")[0]): string {
   const urlEntries = SITEMAP_PAGES.map((page) => {
     let imagesXml = "";
@@ -126,18 +136,18 @@ export function getSitemapXml(dateStr = new Date().toISOString().split("T")[0]):
         .map(
           (img) => `
     <image:image>
-      <image:loc>${img.loc}</image:loc>
-      <image:title>${img.title}</image:title>
+      <image:loc>${escapeXml(img.loc)}</image:loc>
+      <image:title>${escapeXml(img.title)}</image:title>
     </image:image>`,
         )
         .join("");
     }
 
     return `  <url>
-    <loc>${page.loc}</loc>
-    <lastmod>${dateStr}</lastmod>
-    <changefreq>${page.changefreq}</changefreq>
-    <priority>${page.priority}</priority>${imagesXml}
+    <loc>${escapeXml(page.loc)}</loc>
+    <lastmod>${escapeXml(dateStr)}</lastmod>
+    <changefreq>${escapeXml(page.changefreq)}</changefreq>
+    <priority>${escapeXml(page.priority)}</priority>${imagesXml}
   </url>`;
   }).join("\n");
 
