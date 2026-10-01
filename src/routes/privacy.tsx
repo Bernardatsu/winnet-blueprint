@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { company } from "@/config/site";
+import { buildSeoMeta, privacySeoConfig } from "@/lib/seo";
 
 export const Route = createFileRoute("/privacy")({
-  head: () => ({
-    meta: [{ title: `Privacy Policy | ${company.name}` }],
-  }),
+  head: () => buildSeoMeta(privacySeoConfig),
   component: PrivacyPage,
 });
 

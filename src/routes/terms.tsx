@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { company } from "@/config/site";
+import { buildSeoMeta, termsSeoConfig } from "@/lib/seo";
 
 export const Route = createFileRoute("/terms")({
-  head: () => ({
-    meta: [{ title: `Terms & Conditions | ${company.name}` }],
-  }),
+  head: () => buildSeoMeta(termsSeoConfig),
   component: TermsPage,
 });
 

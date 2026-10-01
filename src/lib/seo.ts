@@ -341,6 +341,32 @@ export const gallerySeoConfig: SeoOptions = {
   type: "website",
 };
 
+export const termsSeoConfig: SeoOptions = {
+  title: `Terms & Conditions | ${company.name}`,
+  description:
+    "Review the terms and conditions for Winnet Construction Ltd, including enquiry guidelines, project quotation policies, and governing law in Ghana.",
+  keywords: [
+    "Winnet Construction terms",
+    "construction terms and conditions Ghana",
+    "contractor terms Accra",
+  ],
+  canonical: "/terms",
+  image: "/og-home.jpg",
+  imageAlt: "Winnet Construction Ltd Terms and Conditions",
+  type: "website",
+};
+
+export const privacySeoConfig: SeoOptions = {
+  title: `Privacy Policy | ${company.name}`,
+  description:
+    "Read the privacy policy for Winnet Construction Ltd. Learn how we handle your construction enquiries and contact information with complete confidentiality.",
+  keywords: ["Winnet Construction privacy policy", "privacy policy Ghana contractor"],
+  canonical: "/privacy",
+  image: "/og-home.jpg",
+  imageAlt: "Winnet Construction Ltd Privacy Policy",
+  type: "website",
+};
+
 /**
  * Structured Data (JSON-LD) Generators for Schema.org SEO compliance
  */
@@ -392,7 +418,7 @@ export function getGeneralContractorSchema() {
     image: [
       `${SITE_URL}/winnet-icon-square-512.svg`,
       `${SITE_URL}/winnet-logo-horizontal.svg`,
-      images.hero,
+      `${SITE_URL}/og-home.jpg`,
     ],
     telephone: `+${company.phoneInternational}`,
     email: company.email,
@@ -491,13 +517,18 @@ export function getRootSchemas() {
 }
 
 export function getProjectSchema(project: Project) {
+  const projectImageUrl = project.image.startsWith("http")
+    ? project.image
+    : `${SITE_URL}${project.image.startsWith("/") ? "" : "/"}${project.image}`;
+
   return {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: project.title,
     headline: project.title,
     description: project.summary,
-    image: project.image,
+    image: projectImageUrl,
+    url: `${SITE_URL}/projects/${project.slug}`,
     creator: {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,
