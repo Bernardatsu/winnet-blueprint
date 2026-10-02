@@ -2,5 +2,5 @@
   "name": "Winnet Construction Ltd",
   "description": "Commercial, residential, and civil construction services website with project enquiry workflows.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

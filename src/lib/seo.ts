@@ -1,4 +1,4 @@
-import { company, images, type Project } from "@/config/site";
+import { company, images, faqs, type Project } from "@/config/site";
 
 export interface SeoOptions {
   title: string;
@@ -425,6 +425,18 @@ export function getGeneralContractorSchema() {
     ],
     telephone: `+${company.phoneInternational}`,
     email: company.email,
+    founder: {
+      "@type": "Person",
+      name: company.owner,
+      jobTitle: "Owner & Founder",
+    },
+    employee: [
+      {
+        "@type": "Person",
+        name: company.owner,
+        jobTitle: "Managing Director & Owner",
+      },
+    ],
     slogan: company.motto,
     priceRange: "$$",
     openingHours: "Mo-Sa 08:00-18:00",
@@ -510,12 +522,29 @@ export function getGeneralContractorSchema() {
 }
 
 /**
- * Returns composite JSON-LD schema array for the site root (WebSite + Organization/GeneralContractor)
+ * Schema.org FAQPage Rich Snippet Schema for Google Rich Results
+ */
+export function getFaqSchema() {
+  return {
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.a,
+      },
+    })),
+  };
+}
+
+/**
+ * Returns composite JSON-LD schema array for the site root (WebSite + Organization/GeneralContractor + FAQPage)
  */
 export function getRootSchemas() {
   return {
     "@context": "https://schema.org",
-    "@graph": [getWebSiteSchema(), getGeneralContractorSchema()],
+    "@graph": [getWebSiteSchema(), getGeneralContractorSchema(), getFaqSchema()],
   };
 }
 

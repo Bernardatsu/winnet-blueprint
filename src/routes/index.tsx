@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -13,8 +13,6 @@ import {
   Phone,
   Quote,
   ShieldCheck,
-  Sparkles,
-  Star,
   X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -24,6 +22,7 @@ import { TrustBar } from "@/components/sections/TrustBar";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
 import { Reveal, SectionHeading } from "@/components/Reveal";
+import { FAQSection } from "@/components/sections/FAQSection";
 import { Button } from "@/components/ui/button";
 import { useEnquiry } from "@/components/enquiry/EnquiryProvider";
 import { ProjectEnquiryForm } from "@/components/enquiry/ProjectEnquiryForm";
@@ -55,6 +54,16 @@ function HomePage() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
   const [activeGalleryImg, setActiveGalleryImg] = useState<(typeof gallery)[number] | null>(null);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const [isTestimonialPaused, setIsTestimonialPaused] = useState(false);
+
+  // Automatically slide the client messages/testimonials smoothly
+  useEffect(() => {
+    if (isTestimonialPaused) return;
+    const interval = setInterval(() => {
+      setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isTestimonialPaused]);
 
   const filteredProjects =
     selectedCategory === "All" ? projects : projects.filter((p) => p.category === selectedCategory);
@@ -424,24 +433,19 @@ function HomePage() {
             <h2 className="h-display mt-2 text-3xl sm:text-4xl lg:text-5xl text-white font-bold">
               Feedback &amp; Client Reputation
             </h2>
-            <div className="mt-3 inline-flex items-center gap-2 rounded-full glass-badge px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-gold">
-              <Sparkles className="size-3.5" />
-              Verified Client Reviews &amp; Project Handouts
-            </div>
           </div>
 
-          <div className="mx-auto mt-12 max-w-3xl">
-            <div className="relative rounded-3xl glass-card-dark p-8 sm:p-12 text-center shadow-2xl backdrop-blur-3xl">
-              <Quote className="mx-auto size-10 text-gold/60" />
+          <div className="mx-auto mt-10 max-w-3xl">
+            <div
+              className="relative rounded-3xl glass-card-dark p-6 sm:p-10 lg:p-12 text-center shadow-2xl backdrop-blur-3xl"
+              onMouseEnter={() => setIsTestimonialPaused(true)}
+              onMouseLeave={() => setIsTestimonialPaused(false)}
+              onTouchStart={() => setIsTestimonialPaused(true)}
+              onTouchEnd={() => setIsTestimonialPaused(false)}
+            >
+              <Quote className="mx-auto size-9 text-gold/60" />
 
-              {/* Star Rating */}
-              <div className="mt-4 flex items-center justify-center gap-1">
-                {Array.from({ length: testimonials[testimonialIndex]?.rating || 5 }).map((_, i) => (
-                  <Star key={i} className="size-4 fill-gold text-gold" />
-                ))}
-              </div>
-
-              {/* Project Type Badge */}
+              {/* Project Type & Location */}
               <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-medium text-white backdrop-blur-xs">
                 <span>{testimonials[testimonialIndex]?.projectType}</span>
                 <span className="text-white/40">•</span>
@@ -451,17 +455,31 @@ function HomePage() {
                 </span>
               </div>
 
-              <p className="mt-6 text-lg sm:text-2xl leading-relaxed text-white font-light italic">
-                "{testimonials[testimonialIndex]?.quote}"
-              </p>
+              {/* Auto-sliding message content with smooth motion transition */}
+              <div className="relative min-h-[170px] sm:min-h-[140px] flex items-center justify-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={testimonialIndex}
+                    initial={{ opacity: 0, x: 25 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -25 }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className="w-full"
+                  >
+                    <p className="mt-5 text-base sm:text-xl lg:text-2xl leading-relaxed text-white font-light italic">
+                      "{testimonials[testimonialIndex]?.quote}"
+                    </p>
 
-              <div className="mt-8 border-t border-white/15 pt-6">
-                <p className="font-display text-base uppercase tracking-[0.16em] text-gold font-bold">
-                  {testimonials[testimonialIndex]?.name}
-                </p>
-                <p className="mt-0.5 text-xs text-white/80 font-medium">
-                  {testimonials[testimonialIndex]?.role}
-                </p>
+                    <div className="mt-6 border-t border-white/15 pt-5">
+                      <p className="font-display text-sm sm:text-base uppercase tracking-[0.16em] text-gold font-bold">
+                        {testimonials[testimonialIndex]?.name}
+                      </p>
+                      <p className="mt-0.5 text-xs text-white/80 font-medium">
+                        {testimonials[testimonialIndex]?.role}
+                      </p>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
 
               {/* Prev / Next controls */}
@@ -506,49 +524,7 @@ function HomePage() {
       </section>
 
       {/* 10. FAQs Section */}
-      <section id="faqs" className="section-pad bg-secondary/40">
-        <div className="shell max-w-4xl">
-          <SectionHeading
-            eyebrow="FAQ"
-            title="Frequently Asked Questions"
-            subtitle="Answers to common questions regarding construction costs, project timelines, and planning."
-            align="center"
-          />
-
-          <div className="mt-12 space-y-3.5">
-            {faqs.map((faq, index) => {
-              const isOpen = expandedFaq === index;
-              return (
-                <div
-                  key={faq.q}
-                  className="rounded-xl glass-card transition-all hover:border-ink/30 overflow-hidden"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setExpandedFaq(isOpen ? null : index)}
-                    className="flex w-full items-center justify-between p-5 text-left transition-colors sm:p-6"
-                    aria-expanded={isOpen}
-                  >
-                    <span className="font-display text-sm uppercase tracking-[0.06em] text-foreground sm:text-base font-bold">
-                      {faq.q}
-                    </span>
-                    <ChevronDown
-                      className={`size-5 shrink-0 text-muted-foreground transition-transform duration-200 ${
-                        isOpen ? "rotate-180 text-gold-deep" : ""
-                      }`}
-                    />
-                  </button>
-                  {isOpen ? (
-                    <div className="border-t border-border/70 px-5 pb-6 pt-4 text-sm leading-relaxed text-muted-foreground sm:px-6">
-                      {faq.a}
-                    </div>
-                  ) : null}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <FAQSection />
 
       {/* 11. Embedded Direct Contact / Consultation Section */}
       <section

@@ -8,13 +8,12 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-import { ArrowLeft, HardHat, Home, Sparkles } from "lucide-react";
+import { ArrowLeft, HardHat, Home } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { EnquiryProvider, useEnquiry } from "@/components/enquiry/EnquiryProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { WinnetChatbot } from "@/components/chat/WinnetChatbot";
 import { Toaster } from "@/components/ui/sonner";
 import { Button } from "@/components/ui/button";
 import { company, services, images } from "@/config/site";
@@ -45,7 +44,6 @@ function NotFoundComponent() {
             </Link>
           </Button>
           <Button variant="gold" size="cta" onClick={() => openEnquiry()}>
-            <Sparkles className="size-4" />
             START A PROJECT
           </Button>
         </div>
@@ -148,6 +146,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image:alt", content: `${company.name} — ${company.motto}` },
     ],
     links: [
+      { rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
+      { rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -223,7 +223,6 @@ function RootComponent() {
             <Outlet />
           </main>
           <Footer />
-          <WinnetChatbot />
           <Toaster />
         </div>
       </EnquiryProvider>

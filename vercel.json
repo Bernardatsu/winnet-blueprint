@@ -4,6 +4,18 @@
       "DANGEROUSLY_DEPLOY_VULNERABLE_TANSTACK_START_XSS": "1"
     }
   },
+  "redirects": [
+    {
+      "source": "/booking",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/book",
+      "destination": "/contact",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -15,6 +27,24 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.(?:webp|jpg|jpeg|png|svg|ico|woff|woff2))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, stale-while-revalidate=86400"
         }
       ]
     },

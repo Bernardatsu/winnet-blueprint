@@ -5,7 +5,6 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useEnquiry } from "@/components/enquiry/EnquiryProvider";
 import { company, images } from "@/config/site";
-import { WinnetQualityBadge } from "@/components/brand/WinnetBrand";
 
 const words = ["Building Your Vision.", "Creating Your Future."];
 
@@ -111,16 +110,6 @@ export function Hero() {
           ))}
         </motion.div>
       </div>
-
-      {/* Quality built guarantee badge on desktop */}
-      <motion.div
-        className="absolute bottom-24 right-8 hidden lg:flex flex-col items-center gap-2 xl:right-16"
-        initial={reduced ? undefined : { opacity: 0, scale: 0.8 }}
-        animate={reduced ? undefined : { opacity: 1, scale: 1 }}
-        transition={{ delay: 0.95, duration: 0.6 }}
-      >
-        <WinnetQualityBadge className="size-24 drop-shadow-2xl transition-transform duration-300 hover:scale-110" />
-      </motion.div>
 
       <motion.div
         className="absolute bottom-5 right-4 hidden flex-col items-center gap-2 lg:flex xl:right-12"

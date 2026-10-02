@@ -36,6 +36,8 @@ export const images = {
 export const company = {
   name: "Winnet Construction Ltd",
   shortName: "Winnet",
+  owner: "Mr. Winfred Kwesi Agbenyo",
+  founder: "Mr. Winfred Kwesi Agbenyo",
   motto: "Building Your Vision. Creating Your Future.",
   /** Local Ghanaian format, used for display and tel: links. */
   phoneLocal: "0549074200",
@@ -461,31 +463,31 @@ export const testimonials: Testimonial[] = [
 
 export const faqs = [
   {
-    q: "How do I start a construction project with Winnet?",
-    a: "Send us a project enquiry through the form on this site, message us on WhatsApp or call us. We will discuss what you want to build and agree the next step.",
+    q: "Who is the owner of Winnet or Winnet constructions?",
+    a: "Mr. Winfred Kwesi Agbenyo is the owner and founder of Winnet Construction Ltd. Under his leadership, Winnet Construction provides premier residential, commercial, structural, and civil engineering building services across Accra and throughout Ghana.",
   },
   {
-    q: "Do you handle residential construction?",
-    a: "Yes. We carry out residential building construction, including substructure, blockwork, roofing and finishing works.",
+    q: "How do I book a site inspection or consultation with Winnet Construction?",
+    a: "You can book directly using our online booking form on this site, call 0549074200, or message us on WhatsApp (+233549074200). Select your preferred date, location, and project type, and our engineering team will promptly confirm your booking.",
   },
   {
-    q: "Do you provide renovation services?",
-    a: "Yes. We handle renovation and remodeling work on existing buildings and interiors.",
+    q: "Does Winnet Construction work with clients in the Ghanaian diaspora?",
+    a: "Yes. Winnet Construction specializes in diaspora building partnerships across the UK, USA, Canada, Europe, and beyond. We provide transparent milestones, verified photographic progress reports, video consultations, and clear stage-by-stage valuations.",
   },
   {
-    q: "Can I request a project estimate?",
-    a: "Yes. Share your drawings, location and scope through the enquiry form and we will prepare an estimate based on the agreed scope. Any figure discussed online is indicative until a formal quotation is issued.",
+    q: "What construction services does Winnet Construction provide in Ghana?",
+    a: "We provide comprehensive building solutions including custom luxury residential villas, multi-storey commercial complexes, reinforced concrete structural framing, steel trussing, turnkey interior/exterior finishing, and renovation works.",
   },
   {
-    q: "Do you provide architectural/building design services?",
-    a: "Yes. We provide building design and drawing support to prepare a project for construction.",
+    q: "Can I request a detailed project estimate or Bill of Quantities (BOQ)?",
+    a: "Yes. Share your architectural drawings, site location, and requirements through our booking form or via WhatsApp. We will conduct a thorough review and prepare a clear, transparent, and itemized cost estimate.",
   },
   {
-    q: "How can I contact Winnet?",
-    a: `You can call or WhatsApp ${company.phoneLocal}, or email ${company.email}.`,
+    q: "Do you handle architectural planning and building permits?",
+    a: "Yes. We assist with architectural design, structural engineering drawings, and local municipal permit documentation across the Greater Accra Region and all regions of Ghana.",
   },
   {
-    q: "Can I schedule a consultation?",
-    a: "Yes. Include your preferred consultation date in the enquiry form and we will confirm a time with you.",
+    q: "How can I contact Mr. Winfred Kwesi Agbenyo and the Winnet team?",
+    a: `You can reach Mr. Winfred Kwesi Agbenyo and the Winnet team directly by phone at ${company.phoneLocal}, on WhatsApp at +${company.phoneInternational}, or by email at ${company.email}.`,
   },
 ];

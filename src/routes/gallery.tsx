@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Eye, Maximize2, Sparkles, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Eye, Maximize2, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 import { Reveal, SectionHeading } from "@/components/Reveal";
@@ -249,7 +249,6 @@ function GalleryPage() {
               </div>
               <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
                 <Button variant="gold" size="cta" onClick={() => openEnquiry()}>
-                  <Sparkles className="size-4" />
                   Start Your Project
                 </Button>
               </div>

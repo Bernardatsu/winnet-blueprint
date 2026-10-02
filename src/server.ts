@@ -3,7 +3,6 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 
-import { handleChatRequest, type ChatMessage } from "./server/gemini";
 import { getSitemapXml } from "./lib/sitemap";
 
 type ServerEntry = {
@@ -79,6 +78,11 @@ export default {
         });
       }
 
+      // Redirect /booking and /book to /contact
+      if (url.pathname === "/booking" || url.pathname === "/book") {
+        return Response.redirect(`${url.origin}/contact`, 301);
+      }
+
       // Handle XML Sitemap directly
       if (url.pathname === "/sitemap.xml" || url.pathname === "/sitemap") {
         return new Response(getSitemapXml(), {
@@ -100,34 +104,6 @@ export default {
             "cache-control": "public, max-age=86400",
           },
         });
-      }
-
-      // Handle Gemini AI Chat API
-      if (url.pathname === "/api/chat" && request.method === "POST") {
-        try {
-          const body = (await request.json()) as { messages?: ChatMessage[] };
-          const messages = body.messages || [];
-          const reply = await handleChatRequest(messages);
-          return new Response(JSON.stringify({ reply }), {
-            status: 200,
-            headers: {
-              "content-type": "application/json; charset=utf-8",
-              "cache-control": "no-store",
-            },
-          });
-        } catch (err) {
-          console.error("Chat API error:", err);
-          return new Response(
-            JSON.stringify({
-              reply:
-                "I apologize, but I encountered a temporary connection issue. Please feel free to book a consultation directly using the button above or message us on WhatsApp!",
-            }),
-            {
-              status: 200,
-              headers: { "content-type": "application/json; charset=utf-8" },
-            },
-          );
-        }
       }
 
       const handler = await getServerEntry();

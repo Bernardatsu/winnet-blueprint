@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, ShieldCheck, Target, Users2 } from "lucide-react";
 import { Reveal, SectionHeading } from "@/components/Reveal";
+import { FAQSection } from "@/components/sections/FAQSection";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/button";
 import { useEnquiry } from "@/components/enquiry/EnquiryProvider";
@@ -73,8 +74,14 @@ function AboutPage() {
                   className="aspect-[4/3] w-full object-cover"
                 />
               </div>
-              <div className="mt-4 rounded-xl glass-panel p-5 text-xs text-muted-foreground shadow-sm">
-                Motto: <strong className="text-foreground">{company.motto}</strong>
+              <div className="mt-4 rounded-xl glass-panel p-5 text-xs text-muted-foreground shadow-sm space-y-1.5">
+                <div>
+                  <span className="text-muted-foreground">Founder &amp; Owner: </span>
+                  <strong className="text-foreground text-sm">{company.owner}</strong>
+                </div>
+                <div>
+                  Motto: <strong className="text-foreground">{company.motto}</strong>
+                </div>
               </div>
             </div>
           </div>
@@ -108,6 +115,9 @@ function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Frequently Asked Questions */}
+      <FAQSection className="bg-background border-t border-black/8" />
 
       {/* CTA Section with image behind text */}
       <section className="relative overflow-hidden bg-ink py-16 text-on-ink">
