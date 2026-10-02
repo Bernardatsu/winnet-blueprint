@@ -3,6 +3,7 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 
+import { handleChatRequest, type ChatMessage } from "./server/gemini";
 import { getSitemapXml } from "./lib/sitemap";
 
 type ServerEntry = {
@@ -104,6 +105,34 @@ export default {
             "cache-control": "public, max-age=86400",
           },
         });
+      }
+
+      // Handle Chat API
+      if (url.pathname === "/api/chat" && request.method === "POST") {
+        try {
+          const body = (await request.json()) as { messages?: ChatMessage[] };
+          const messages = Array.isArray(body?.messages) ? body.messages : [];
+          const reply = await handleChatRequest(messages);
+          return new Response(JSON.stringify({ reply }), {
+            status: 200,
+            headers: {
+              "content-type": "application/json; charset=utf-8",
+              "cache-control": "no-store, no-cache, must-revalidate",
+            },
+          });
+        } catch (chatError) {
+          console.error("Chat endpoint error:", chatError);
+          return new Response(
+            JSON.stringify({
+              reply:
+                "Thank you for contacting Winnet Construction Ltd. Please reach Mr. Winfred Kwesi Agbenyo at 0549074200 or via WhatsApp (+233549074200) for instant assistance.",
+            }),
+            {
+              status: 200,
+              headers: { "content-type": "application/json; charset=utf-8" },
+            },
+          );
+        }
       }
 
       const handler = await getServerEntry();

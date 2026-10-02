@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Mail,
   Phone,
@@ -7,6 +7,8 @@ import {
   Clock,
   MapPin,
   CalendarCheck,
+  ArrowLeft,
+  X,
 } from "lucide-react";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { ProjectEnquiryForm } from "@/components/enquiry/ProjectEnquiryForm";
@@ -23,6 +25,22 @@ export const Route = createFileRoute("/contact")({
 function ContactPage() {
   return (
     <div className="flex flex-col pt-20">
+      {/* Quick Navigation / Close Bar */}
+      <div className="bg-ink border-b border-white/10 px-4 py-2.5 sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 rounded-lg bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 text-xs font-semibold transition-colors"
+          >
+            <ArrowLeft className="size-3.5" />
+            <span>Close / Back to Home</span>
+          </Link>
+          <span className="text-xs text-on-ink-muted hidden sm:inline">
+            Direct Project Booking & Consultation Desk
+          </span>
+        </div>
+      </div>
+
       {/* Header with image behind text */}
       <PageHeader
         eyebrow="Direct Project Booking & Desk"
