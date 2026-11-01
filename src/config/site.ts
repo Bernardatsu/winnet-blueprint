@@ -36,8 +36,8 @@ export const images = {
 export const company = {
   name: "Winnet Construction Ltd",
   shortName: "Winnet",
-  owner: "Mr. Winfred Kwesi Agbenyo",
-  founder: "Mr. Winfred Kwesi Agbenyo",
+  owner: "Mr. Winfred Kwasi Agbenyo",
+  founder: "Mr. Winfred Kwasi Agbenyo",
   motto: "Building Your Vision. Creating Your Future.",
   /** Local Ghanaian format, used for display and tel: links. */
   phoneLocal: "0549074200",
@@ -464,7 +464,7 @@ export const testimonials: Testimonial[] = [
 export const faqs = [
   {
     q: "Who is the owner of Winnet or Winnet constructions?",
-    a: "Mr. Winfred Kwesi Agbenyo is the owner and founder of Winnet Construction Ltd. Under his leadership, Winnet Construction provides premier residential, commercial, structural, and civil engineering building services across Accra and throughout Ghana.",
+    a: "Mr. Winfred Kwasi Agbenyo is the owner and founder of Winnet Construction Ltd. Under his leadership, Winnet Construction provides premier residential, commercial, structural, and civil engineering building services across Accra and throughout Ghana.",
   },
   {
     q: "How do I book a site inspection or consultation with Winnet Construction?",
@@ -487,7 +487,7 @@ export const faqs = [
     a: "Yes. We assist with architectural design, structural engineering drawings, and local municipal permit documentation across the Greater Accra Region and all regions of Ghana.",
   },
   {
-    q: "How can I contact Mr. Winfred Kwesi Agbenyo and the Winnet team?",
-    a: `You can reach Mr. Winfred Kwesi Agbenyo and the Winnet team directly by phone at ${company.phoneLocal}, on WhatsApp at +${company.phoneInternational}, or by email at ${company.email}.`,
+    q: "How can I contact Mr. Winfred Kwasi Agbenyo and the Winnet team?",
+    a: `You can reach Mr. Winfred Kwasi Agbenyo and the Winnet team directly by phone at ${company.phoneLocal}, on WhatsApp at +${company.phoneInternational}, or by email at ${company.email}.`,
   },
 ];

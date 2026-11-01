@@ -34,7 +34,7 @@ const SUGGESTIONS = [
   "How much does it cost to build a house in Ghana?",
   "What is Winnet's construction process?",
   "Do you handle commercial projects?",
-  "How can I speak directly with Mr. Winfred Kwesi Agbenyo?",
+  "How can I speak directly with Mr. Winfred Kwasi Agbenyo?",
 ];
 
 export function WinnetChatbot() {
@@ -97,7 +97,7 @@ export function WinnetChatbot() {
       const data = (await response.json()) as { reply?: string };
       const replyContent =
         data.reply ||
-        "Thank you for your enquiry. For immediate technical consultations and project estimates, please call or WhatsApp Mr. Winfred Kwesi Agbenyo at 0549074200.";
+        "Thank you for your enquiry. For immediate technical consultations and project estimates, please call or WhatsApp Mr. Winfred Kwasi Agbenyo at 0549074200.";
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -112,7 +112,7 @@ export function WinnetChatbot() {
         id: (Date.now() + 1).toString(),
         role: "assistant",
         content:
-          "Thank you for contacting Winnet Construction Ltd. For immediate assistance with your building project or to get a tailored estimate, please reach Mr. Winfred Kwesi Agbenyo directly at 0549074200 or via WhatsApp (+233549074200).",
+          "Thank you for contacting Winnet Construction Ltd. For immediate assistance with your building project or to get a tailored estimate, please reach Mr. Winfred Kwasi Agbenyo directly at 0549074200 or via WhatsApp (+233549074200).",
         time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       };
       setMessages((prev) => [...prev, fallbackMessage]);

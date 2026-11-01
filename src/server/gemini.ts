@@ -8,7 +8,7 @@ export type ChatMessage = {
 const SYSTEM_INSTRUCTION = `You are the official Project Consultant for Winnet Construction Ltd in Ghana.
 Company details:
 - Name: Winnet Construction Ltd
-- Founder & Managing Director: Mr. Winfred Kwesi Agbenyo
+- Founder & Managing Director: Mr. Winfred Kwasi Agbenyo
 - Motto: "Building Your Vision. Creating Your Future."
 - Contact Phone: 0549074200 (International / WhatsApp: +233549074200)
 - Official Email: Fredmawuli123@gmail.com
@@ -31,7 +31,7 @@ Your mission:
 - Answer questions accurately, concisely, and professionally about construction in Ghana, building materials, budgeting considerations, permits, and Winnet Construction's services.
 - Emphasize safety, durability, high-standard workmanship, and honest communication.
 - Always be polite, warm, and encourage prospective clients to reach out for a consultation or quote.
-- Suggest contacting Mr. Winfred Kwesi Agbenyo at 0549074200 or via WhatsApp (+233549074200), or clicking "Start a Project" on the website.
+- Suggest contacting Mr. Winfred Kwasi Agbenyo at 0549074200 or via WhatsApp (+233549074200), or clicking "Start a Project" on the website.
 - Keep answers formatted with clean paragraphs or bullet points where helpful.`;
 
 let aiClient: GoogleGenAI | null = null;
@@ -82,7 +82,7 @@ export async function handleChatRequest(messages: ChatMessage[]): Promise<string
       lastUserMsg.includes("quote") ||
       lastUserMsg.includes("estimate")
     ) {
-      return "Every construction project is unique depending on location, topography, materials, and architectural design. At Winnet Construction Ltd, we prepare customized, transparent Bills of Quantities (BOQ) to guarantee fair pricing. Please call or WhatsApp Mr. Winfred Kwesi Agbenyo at 0549074200 (+233549074200) or click 'Start a Project' to receive a tailored estimate!";
+      return "Every construction project is unique depending on location, topography, materials, and architectural design. At Winnet Construction Ltd, we prepare customized, transparent Bills of Quantities (BOQ) to guarantee fair pricing. Please call or WhatsApp Mr. Winfred Kwasi Agbenyo at 0549074200 (+233549074200) or click 'Start a Project' to receive a tailored estimate!";
     }
     if (
       lastUserMsg.includes("contact") ||
@@ -91,7 +91,7 @@ export async function handleChatRequest(messages: ChatMessage[]): Promise<string
       lastUserMsg.includes("call") ||
       lastUserMsg.includes("whatsapp")
     ) {
-      return "You can reach Winnet Construction Ltd directly:\n• Phone: 0549074200\n• WhatsApp: +233549074200\n• Email: Fredmawuli123@gmail.com\n• Director: Mr. Winfred Kwesi Agbenyo\n\nWe look forward to discussing your project!";
+      return "You can reach Winnet Construction Ltd directly:\n• Phone: 0549074200\n• WhatsApp: +233549074200\n• Email: Fredmawuli123@gmail.com\n• Director: Mr. Winfred Kwasi Agbenyo\n\nWe look forward to discussing your project!";
     }
     if (
       lastUserMsg.includes("service") ||
@@ -102,7 +102,7 @@ export async function handleChatRequest(messages: ChatMessage[]): Promise<string
     ) {
       return "Winnet Construction Ltd provides comprehensive construction solutions across Ghana, including:\n1. Residential Construction (Custom homes & villas)\n2. Commercial Buildings (Offices & retail)\n3. Complete Renovations & Structural Upgrades\n4. Civil & Structural Engineering\n5. Interior & Exterior Architectural Finishes\n\nLet us know what you would like to build!";
     }
-    return "Welcome to Winnet Construction Ltd! We are dedicated to 'Building Your Vision. Creating Your Future.' You can ask me about our residential & commercial construction, building timelines, or reach out to Mr. Winfred Kwesi Agbenyo directly at 0549074200 / WhatsApp +233549074200.";
+    return "Welcome to Winnet Construction Ltd! We are dedicated to 'Building Your Vision. Creating Your Future.' You can ask me about our residential & commercial construction, building timelines, or reach out to Mr. Winfred Kwasi Agbenyo directly at 0549074200 / WhatsApp +233549074200.";
   }
 
   try {
@@ -119,9 +119,9 @@ export async function handleChatRequest(messages: ChatMessage[]): Promise<string
       return reply.trim();
     }
 
-    return "Thank you for your enquiry. For immediate technical consultations and project estimates, please call or WhatsApp Mr. Winfred Kwesi Agbenyo at 0549074200.";
+    return "Thank you for your enquiry. For immediate technical consultations and project estimates, please call or WhatsApp Mr. Winfred Kwasi Agbenyo at 0549074200.";
   } catch (error) {
     console.error("Gemini API chat error:", error);
-    return "Thank you for reaching out to Winnet Construction Ltd. For immediate assistance with your building project or to get a detailed quote, please reach Mr. Winfred Kwesi Agbenyo directly at 0549074200 or via WhatsApp at +233549074200.";
+    return "Thank you for reaching out to Winnet Construction Ltd. For immediate assistance with your building project or to get a detailed quote, please reach Mr. Winfred Kwasi Agbenyo directly at 0549074200 or via WhatsApp at +233549074200.";
   }
 }

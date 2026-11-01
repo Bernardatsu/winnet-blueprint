@@ -110,7 +110,7 @@ export function FAQSection({
                 Have a specific question about your site or project?
               </h3>
               <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto mt-1">
-                Speak directly with Mr. Winfred Kwesi Agbenyo and our project estimation team.
+                Speak directly with Mr. Winfred Kwasi Agbenyo and our project estimation team.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">

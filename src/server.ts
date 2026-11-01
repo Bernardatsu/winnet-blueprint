@@ -125,7 +125,7 @@ export default {
           return new Response(
             JSON.stringify({
               reply:
-                "Thank you for contacting Winnet Construction Ltd. Please reach Mr. Winfred Kwesi Agbenyo at 0549074200 or via WhatsApp (+233549074200) for instant assistance.",
+                "Thank you for contacting Winnet Construction Ltd. Please reach Mr. Winfred Kwasi Agbenyo at 0549074200 or via WhatsApp (+233549074200) for instant assistance.",
             }),
             {
               status: 200,
