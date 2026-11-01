@@ -117,7 +117,7 @@ export function FAQSection({
               <Button asChild variant="gold" size="cta" className="w-full sm:w-auto">
                 <a
                   href={whatsappUrl(
-                    "Hello Mr. Winfred Kwesi Agbenyo and Winnet Construction team, I have a question regarding a project.",
+                    "Hello Mr. Winfred Kwasi Agbenyo and Winnet Construction team, I have a question regarding a project.",
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
